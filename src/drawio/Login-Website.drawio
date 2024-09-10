@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="24.7.12">
   <diagram name="Page-1" id="2YBvvXClWsGukQMizWep">
-    <mxGraphModel dx="1936" dy="868" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1434" dy="738" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -13,7 +13,7 @@
         <mxCell id="9W2UMyhUDM8AN_5umNmA-3" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="9W2UMyhUDM8AN_5umNmA-1" vertex="1">
           <mxGeometry x="52.5" y="220" width="10" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="9W2UMyhUDM8AN_5umNmA-18" value="" style="endArrow=classic;html=1;rounded=0;" parent="9W2UMyhUDM8AN_5umNmA-1" edge="1" target="9W2UMyhUDM8AN_5umNmA-3">
+        <mxCell id="9W2UMyhUDM8AN_5umNmA-18" value="" style="endArrow=classic;html=1;rounded=0;" parent="9W2UMyhUDM8AN_5umNmA-1" target="9W2UMyhUDM8AN_5umNmA-3" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="-135" y="219.70999999999998" as="sourcePoint" />
             <mxPoint x="35" y="220" as="targetPoint" />
@@ -97,9 +97,9 @@
           <mxGeometry x="690" y="160" width="140" height="320" as="geometry" />
         </mxCell>
         <mxCell id="9W2UMyhUDM8AN_5umNmA-27" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="9W2UMyhUDM8AN_5umNmA-26" vertex="1">
-          <mxGeometry x="65" y="250" width="10" height="20" as="geometry" />
+          <mxGeometry x="65" y="250" width="10" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="9W2UMyhUDM8AN_5umNmA-20" value="5. eventoAutenticação()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1" target="9W2UMyhUDM8AN_5umNmA-6">
+        <mxCell id="9W2UMyhUDM8AN_5umNmA-20" value="5. eventoAutenticação()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" target="9W2UMyhUDM8AN_5umNmA-6" edge="1">
           <mxGeometry x="-0.009" relative="1" as="geometry">
             <mxPoint x="297.5" y="390.28999999999996" as="sourcePoint" />
             <Array as="points">
