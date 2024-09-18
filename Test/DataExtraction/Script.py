@@ -2,6 +2,14 @@ import pandas as pd
 from bs4 import BeautifulSoup as bs
 import requests
 
+def jenkins():
+    return 1
+
+
+def test():
+    assert jenkins() == 1
+
+
 def main():
     url = "https://praialimpa.net/"
     page = requests.get(url)
