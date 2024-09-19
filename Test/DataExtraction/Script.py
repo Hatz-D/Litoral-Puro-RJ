@@ -5,9 +5,11 @@ import requests
 def jenkins():
     return 1
 
+def jenkins2():
+    return 2
 
 def test():
-    assert jenkins() == 1
+    assert jenkins() == 1 and jenkins2() == 2
 
 
 def main():
