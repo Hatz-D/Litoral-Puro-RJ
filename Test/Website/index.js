@@ -31,28 +31,78 @@ function displayData(data) {
 
     // Verifica se todos os campos necessários existem e são objetos
     if (data.Praia && data.Local && data.Qualidade && data.Municipio && data.Data) {
-        // Obtém as chaves numéricas (assumindo que todas têm os mesmos índices)
-        const keys = Object.keys(data.Praia);
+        const table = document.createElement('table');
+        table.setAttribute("id", "myTable");
+        table.classList.add('data-table');
 
-        // Itera sobre cada índice para montar as informações
-        keys.forEach(key => {
-            const dataItem = document.createElement('div');
-            dataItem.classList.add('data-item');
+        // Cria o cabeçalho da tabela
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
 
-            // Adiciona as informações ao elemento
-            dataItem.textContent = `
-                Praia: ${data.Praia[key] || 'N/A'}, 
-                Local: ${data.Local[key] || 'N/A'}, 
-                Qualidade: ${data.Qualidade[key] || 'N/A'}, 
-                Municipio: ${data.Municipio[key] || 'N/A'}, 
-                Data: ${data.Data[key] || 'N/A'}
-            `;
+        // Define os cabeçalhos das colunas
+        const headers = ['Praia', 'Local', 'Qualidade', 'Municipio', 'Data'];
 
-            // Adiciona o elemento ao container
-            dataContainer.appendChild(dataItem);
+        headers.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            headerRow.appendChild(th);
         });
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Cria o corpo da tabela
+        const tbody = document.createElement('tbody');
+
+        // Como os dados estão organizados com chaves numéricas, vamos iterar sobre essas chaves
+        const keys = Object.keys(data.Praia); // Usando 'Praia' para obter as chaves numéricas
+
+        keys.forEach(key => {
+            const row = document.createElement('tr');
+
+            // Cria uma célula para cada coluna (Praia, Local, Qualidade, Municipio, Data)
+            const rowData = [
+                data.Praia[key] || 'N/A',
+                data.Local[key] || 'N/A',
+                data.Qualidade[key] || 'N/A',
+                data.Municipio[key] || 'N/A',
+                data.Data[key] || 'N/A'
+            ];
+
+            rowData.forEach(value => {
+                const cell = document.createElement('td');
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+
+            tbody.appendChild(row);
+        });
+
+        table.appendChild(tbody);
+        dataContainer.appendChild(table);  // Adiciona a tabela ao container
     } else {
-        // Mostra uma mensagem se algum campo estiver faltando
         dataContainer.textContent = 'Formato inválido: dados incompletos.';
+    }
+}
+
+function tableFilter() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
     }
 }
