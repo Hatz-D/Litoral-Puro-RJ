@@ -13,4 +13,4 @@ RUN sed -i "always;/a\    add_header 'Access-Control-Allow-Headers' 'Origin, Con
 RUN sed -i "always;/a\    proxy_pass http://127.0.0.1:*;" /etc/nginx/conf.d/default.conf
 
 RUN sed -i "s/localhost/dioguitoposeidon.com.br/g" /etc/nginx/conf.d/default.conf
-RUN sed -i "s/location / {/location / {/g" /etc/nginx/conf.d/default.conf
+RUN sed -i "s/location \//location \/api/g" /etc/nginx/conf.d/default.conf
