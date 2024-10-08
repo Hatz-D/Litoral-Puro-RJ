@@ -1,0 +1,15 @@
+body{
+    font-family: Verdana;
+    font-size: 1em;
+}
+
+.container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .data-item {
+    margin-bottom: 10px;
+  }
