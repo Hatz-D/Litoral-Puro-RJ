@@ -29,20 +29,30 @@ function displayData(data) {
         }
     }
 
-    // Verifica se os dados são um array
-    if (Array.isArray(data)) {
-        data.forEach(item => {
+    // Verifica se todos os campos necessários existem e são objetos
+    if (data.Praia && data.Local && data.Qualidade && data.Municipio && data.Data) {
+        // Obtém as chaves numéricas (assumindo que todas têm os mesmos índices)
+        const keys = Object.keys(data.Praia);
+
+        // Itera sobre cada índice para montar as informações
+        keys.forEach(key => {
             const dataItem = document.createElement('div');
             dataItem.classList.add('data-item');
 
-            // Garante que os campos existam no item antes de acessá-los
-            dataItem.textContent = `Praia: ${item.Praia || 'N/A'}, Local: ${item.Local || 'N/A'}, Qualidade: ${item.Qualidade || 'N/A'}, Municipio: ${item.Municipio || 'N/A'}, Data: ${item.Data || 'N/A'}`;
+            // Adiciona as informações ao elemento
+            dataItem.textContent = `
+                Praia: ${data.Praia[key] || 'N/A'}, 
+                Local: ${data.Local[key] || 'N/A'}, 
+                Qualidade: ${data.Qualidade[key] || 'N/A'}, 
+                Municipio: ${data.Municipio[key] || 'N/A'}, 
+                Data: ${data.Data[key] || 'N/A'}
+            `;
 
             // Adiciona o elemento ao container
             dataContainer.appendChild(dataItem);
         });
     } else {
-        // Mostra uma mensagem se os dados não forem um array
-        dataContainer.textContent = 'Os dados fornecidos não são um array válido.';
+        // Mostra uma mensagem se algum campo estiver faltando
+        dataContainer.textContent = 'Formato inválido: dados incompletos.';
     }
 }
