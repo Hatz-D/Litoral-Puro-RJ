@@ -18,6 +18,8 @@ function displayData(data) {
 
     dataContainer.innerHTML = '';
 
+    data = JSON.parse(data);
+
     data.forEach(item => {
         const dataItem = document.createElement('div');
         dataItem.classList.add('data-item');
