@@ -1,2 +1,2 @@
 # Litoral-Puro-RJ
-Repositório destinado ao trabalho de TCC
+Repositório destinado ao trabalho de TCC.
