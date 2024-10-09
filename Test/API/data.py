@@ -31,6 +31,6 @@ def getData():
 
 @app.get("/api/map")
 def getMap():
-    response = requests.get("https://maps.googleapis.com/maps/api/js?key=AIzaSyCMj2ruQfUp-qUBNU880hJqYuMyQCEvvJE&callback=console.debug&libraries=maps,marker&v=beta")
+    response = requests.get("https://maps.googleapis.com/maps/api/js?key={}&callback=console.debug&libraries=maps,marker&v=beta", MAPS_API)
     return JSONResponse(content={"script": response.text}, status_code=200)
     
