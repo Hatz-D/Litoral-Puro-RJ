@@ -1,13 +1,15 @@
 FROM ubuntu:latest
 
-RUN apt update && apt-upgrade -y
+RUN apt update && apt upgrade -y
 
-RUN pip install fastapi[standard]
+RUN apt-get install pip git python3.12-venv -y
 
-RUN pip install requests
+RUN python3 -m venv my-venv
 
-RUN apt-get install git -y
+RUN my-venv/bin/pip install fastapi[standard]
+
+RUN my-venv/bin/pip install requests
 
 RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
 
-RUN fastapi run Litoral-Puro-RJ/Test/API/data.py
+ENTRYPOINT ["my-venv/bin/fastapi", "run", "Litoral-Puro-RJ/Test/API/data.py"]
