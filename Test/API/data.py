@@ -23,7 +23,7 @@ app.add_middleware(
 
 @app.get("/api/data")
 def getData():
-    with open("../DataExtraction/data.json", 'r', encoding='utf-8') as arquivo:
+    with open("/Litoral-Puro-RJ/Test/DataExtraction/data.json", 'r', encoding='utf-8') as arquivo:
         conteudo_json = json.load(arquivo)  # Carrega o JSON
         conteudo_string = json.dumps(conteudo_json)  # Converte em string com formatação
     return conteudo_string
