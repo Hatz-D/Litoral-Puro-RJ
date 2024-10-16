@@ -15,7 +15,10 @@ def main():
     soup = bs(page.content, "html.parser")
     sections = soup.find_all("section")
 
-    for section in sections:        
+    for section in sections:
+        if(section.get("id") == "search"):
+            continue
+
         status = section.find_all(class_=["propria","impropria","amostragem-nao-realizada"])
         praias = section.find_all(class_="name")
         locais = section.find_all(class_="location")
@@ -26,7 +29,7 @@ def main():
             new_line = {"Praia":unidecode(praias[i].get_text(strip=True)), "Local":unidecode(locais[i].get_text(strip=True)), "Qualidade":unidecode(status[i].get_text(strip=True)), "Municipio":municipio, "Data":lastupdate}
             df = df._append(new_line, ignore_index=True)
 
-    df.to_json("./data.json")
+    df.to_json("./data2.json")
     return df.to_json()
 
 
