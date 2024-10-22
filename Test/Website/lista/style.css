@@ -1,6 +1,12 @@
-body{
-  font-family: Verdana;
-  font-size: 1em;
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #e8e8fc;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -101,8 +107,10 @@ nav button:hover {
 
 footer {
   text-align: center;
-  margin-top: 103px;
   padding: 10px;
   background-color: #a393eb;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 
