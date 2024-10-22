@@ -1,13 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Litoral Puro RJ</title>
-    <link rel="stylesheet" type="text/css" href="./style.css" />
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estatísticas de Balneabilidade</title>
+    <link rel="stylesheet" href="style.css">
     <script type="module" src="./index.js"></script>
-  </head>
-  <body>
-    <h1>Bem-vindo ao Litoral Puro RJ - Mapa</h1>
-    <a href="lista/index.html">Pagina de lista</a>
-    <div id="map"></div>
-  </body>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo" width="100">
+        </div>
+        <nav>
+            <button onclick="window.location.href='index.html'">Mapa</button>
+            <button onclick="window.location.href='../lista/index.html'">Lista de Praias</button>
+            <button>Blog</button>
+        </nav>
+        <div class="auth-buttons">
+            <button>Registrar/Login</button>
+        </div>
+    </header>
+    
+    <main>
+        <div class="left-panel">
+            <div class="balneabilidade-stats">
+                <h2>Estatísticas de Balneabilidade</h2>
+                <div class="circle-chart">
+                    <p>123/256</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="center-panel">
+            <div class="map-placeholder" id="map">
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Litoral Puro - 2024</p>
+    </footer>
+</body>
 </html>

@@ -1,22 +1,121 @@
-/* 
- * Always set the map height explicitly to define the size of the div element
- * that contains the map. 
- */
- #map {
-    height: 70%;
-    width: 70%;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  gmp-map {
-    height: 100%;
-  }
-  
-  /* 
-   * Optional: Makes the sample page fill the window. 
-   */
-  html,
-  body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e8e8fc;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #a393eb;
+}
+
+.logo img {
+  height: 60px;
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+}
+
+nav button {
+  padding: 10px 20px;
+  background-color: #fff;
+  border: 2px solid #999;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background-color: #ddd;
+}
+
+.auth-buttons button {
+  padding: 10px 20px;
+  background-color: #fff;
+  border: 2px solid #999;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.auth-buttons button:hover {
+  background-color: #ddd;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.left-panel {
+  margin-right: 20px;
+}
+
+.balneabilidade-stats {
+  background-color: #cbc3f0;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.balneabilidade-stats h2 {
+  margin-bottom: 20px;
+}
+
+.circle-chart {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 10px solid;
+  border-color: green green red red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0ff;
+}
+
+.circle-chart p {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.center-panel {
+  flex-grow: 1;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  min-height: 500px;
+}
+
+.map-placeholder {
+  font-size: 20px;
+  color: #999;
+}
+
+footer {
+  text-align: center;
+  margin-top: 103px;
+  padding: 10px;
+  background-color: #a393eb;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+gmp-map {
+  height: 100%;
+}
