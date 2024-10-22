@@ -4,9 +4,15 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
+  height: 100%;
   font-family: Arial, sans-serif;
   background-color: #e8e8fc;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
 }
 
 header {
@@ -54,6 +60,7 @@ main {
   display: flex;
   justify-content: center;
   padding: 20px;
+  flex-grow: 1; /* Permite que o main cresça e empurre o footer para baixo */
 }
 
 .left-panel {
@@ -106,9 +113,11 @@ main {
 
 footer {
   text-align: center;
-  margin-top: 56px;
   padding: 10px;
   background-color: #a393eb;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 
 #map {
