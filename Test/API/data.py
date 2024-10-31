@@ -33,4 +33,11 @@ def getData():
 def getMap():
     response = requests.get("https://maps.googleapis.com/maps/api/js?key="+MAPS_API+"&callback=console.debug&libraries=maps,marker&v=beta")
     return JSONResponse(content={"script": response.text}, status_code=200)
-    
+   
+
+@app.get("/api/coordinates")
+def getCoordinates():
+    with open("/Litoral-Puro-RJ/Test/API/coordinates.json", 'r', encoding='utf-8') as arquivo:
+        conteudo_json = json.load(arquivo)
+        conteudo_string = json.dumps(conteudo_json)
+    return conteudo_string
