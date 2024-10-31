@@ -38,7 +38,10 @@ async function loadMarkers(map, data) {
 }
 
   const responseCoord = await fetch('http://dioguitoposeidon.com.br:8000/api/coordinates');
-  const coordenadas = await responseCoord.json();
+  const coords = await responseCoord.json();
+  const cleanedString = coords.replace(/^"|"$/g, '').replace(/\\"/g, '"');
+  const coordenadas = JSON.parse(cleanedString);
+  console.log(typeof coordenadas)
 
   coordenadas.forEach((coordenada, index) => {
     const latitude = coordenada[0];
