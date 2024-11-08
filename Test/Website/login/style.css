@@ -1,0 +1,174 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #e8e8fc;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Garante que o body ocupe toda a altura da tela */
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #a393eb;
+  position: fixed; /* Fixa o header no topo */
+  top: 0;
+  width: 100%; /* Garante que o header ocupe toda a largura */
+  z-index: 1000; /* Garante que o header fique sobre os outros elementos */
+}
+
+/* Adiciona margem no topo para evitar que o conteúdo sobreponha o header */
+main {
+  flex-grow: 1; /* Garante que o conteúdo principal ocupe o espaço necessário */
+  margin-top: 80px; /* Ajusta a margem com base na altura do header */
+  padding: 20px; /* Adiciona um padding no main para espaçamento */
+}
+
+.logo img {
+  height: 60px;
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+}
+
+nav button {
+  padding: 10px 20px;
+  background-color: #fff;
+  border: 2px solid #999;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+nav button:hover {
+  background-color: #ddd;
+}
+
+.auth-buttons button {
+  padding: 10px 20px;
+  background-color: #fff;
+  border: 2px solid #999;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-buttons button:hover {
+  background-color: #ddd;
+}
+
+/* Garante que o footer sempre fique na parte inferior */
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #a393eb;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  flex-shrink: 0; /* Garante que o footer não encolha */
+}
+
+/* Melhorias adicionais no layout para garantir responsividade */
+@media (max-width: 768px) {
+  #myTable {
+      width: 100%; /* Para telas pequenas, a tabela ocupa 100% da largura */
+  }
+
+  nav {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .auth-buttons {
+      margin-top: 10px;
+  }
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.login-container label {
+  display: block;
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.login-container input[type="email"]:focus,
+.login-container input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-container button:hover {
+  background-color: #0056b3;
+}
+
+.login-container p {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.login-container p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-container p a:hover {
+  text-decoration: underline;
+}

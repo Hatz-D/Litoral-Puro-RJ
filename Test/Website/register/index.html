@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+        <img src="../logo.png" alt="Logo">
+        </div>
+            <nav>
+            <button onclick="window.location.href='../index.html'">Mapa</button>
+            <button onclick="window.location.href='../lista/index.html'">Lista de Praias</button>
+            <button>Blog</button>
+            </nav>
+            <div class="auth-buttons">
+                <button onclick="window.location.href='../login/index.html'">Registrar/Login</button>
+        </div>
+    </header>
+    <main>
+        <div class="register-container">
+           <h2>Registro</h2>
+           <form id="registerForm">
+               <label for="name">Nome de usuário</label>
+               <input type="text" id="name" name="name" required>
+
+               <label for="email">E-mail</label>
+               <input type="email" id="email" name="email" required>
+
+               <label for="password">Senha</label>
+               <input type="password" id="password" name="password" required>
+
+               <label for="confirmPassword">Confirme a Senha</label>
+               <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+               <button type="submit">Registrar</button>
+           </form>
+         <p>Já tem uma conta? <a href="/login/index.html">Entrar</a></p>
+        </div>
+
+        <script src="script.js"></script>
+    </main>
+
+    <footer>
+        <p>Litoral Puro - 2024</p>
+    </footer>
+</body>
+</html>
