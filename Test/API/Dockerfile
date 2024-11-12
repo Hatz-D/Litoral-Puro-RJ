@@ -12,7 +12,7 @@ RUN my-venv/bin/pip install requests
 
 RUN my-venv/bin/pip install pymongo
 
-RUN my-venv/bin/pip install beautifulsoup
+RUN my-venv/bin/pip install beautifulsoup4
 
 RUN my-venv/bin/pip install pandas
 
