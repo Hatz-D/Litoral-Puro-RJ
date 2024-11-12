@@ -12,6 +12,12 @@ RUN my-venv/bin/pip install requests
 
 RUN my-venv/bin/pip install pymongo
 
+RUN my-venv/bin/pip install beautifulsoup
+
+RUN my-venv/bin/pip install pandas
+
+RUN my-venv/bin/pip install unidecode
+
 RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
 
 ENTRYPOINT ["my-venv/bin/fastapi", "run", "Litoral-Puro-RJ/Test/API/data.py"]
