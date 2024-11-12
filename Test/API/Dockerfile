@@ -10,6 +10,8 @@ RUN my-venv/bin/pip install fastapi[standard]
 
 RUN my-venv/bin/pip install requests
 
+RUN my-venv/bin/pip install pymongo
+
 RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
 
 ENTRYPOINT ["my-venv/bin/fastapi", "run", "Litoral-Puro-RJ/Test/API/data.py"]
