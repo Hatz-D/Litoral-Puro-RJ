@@ -140,7 +140,7 @@ def register():
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
     db = client['litoral_puro_rj']  
-    collection = db['praia']  
+    collection = db['usuario']  
 
     try:
         return "Usuário criado com sucesso!"
@@ -155,7 +155,7 @@ def login():
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
     db = client['litoral_puro_rj']
-    collection = db['praia']  
+    collection = db['usuario']  
 
     try:
         return "Usuário logado com sucesso!"
