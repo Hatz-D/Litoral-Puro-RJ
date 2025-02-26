@@ -133,3 +133,33 @@ def webScrapping():
     except Exception as e:
         print("Erro:", e)
         return "Erro!"
+
+
+@app.post("/api/register")
+def register():
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+
+    db = client['litoral_puro_rj']  
+    collection = db['praia']  
+
+    try:
+        return "Usuário criado com sucesso!"
+
+    except Exception as e:
+        print("Erro:", e)
+        return "Erro!"
+
+
+@app.post("/api/login")
+def login():
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+
+    db = client['litoral_puro_rj']
+    collection = db['praia']  
+
+    try:
+        return "Usuário logado com sucesso!"
+
+    except Exception as e:
+        print("Erro:", e)
+        return "Erro!"
