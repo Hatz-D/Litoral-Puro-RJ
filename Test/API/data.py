@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 import json
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -10,11 +10,15 @@ import pandas as pd
 from bs4 import BeautifulSoup as bs
 from unidecode import unidecode
 from datetime import datetime
+from passlib.context import CryptContext
+from pydantic import BaseModel, EmailStr, constr
 
 app = FastAPI()
 
 MAPS_API = os.getenv("MAPS_API")
 MONGO_URI = os.getenv("MONGO_URI")
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 origins = [
     "*"
@@ -27,6 +31,49 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class UserCreate(BaseModel):
+    name: str
+    email: EmailStr
+    password: constr(min_length=6)
+
+    class Config:
+        orm_mode = True
+
+# Função para hash da senha
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password)
+
+# Função para verificar se a senha corresponde ao hash
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+
+# Função para criar o usuário no MongoDB
+def create_user(user: UserCreate):
+    # Verifica se o e-mail já existe no banco de dados
+    if collection.find_one({"email": user.email}):
+        raise ValueError("Email já cadastrado")
+
+    # Criptografa a senha do usuário
+    hashed_password = hash_password(user.password)
+
+    # Criação do documento de usuário
+    new_user = {
+        "name": user.name,
+        "email": user.email,
+        "hashed_password": hashed_password,
+        "created_at": datetime.utcnow()
+    }
+
+    # Inserção no MongoDB
+    collection.insert_one(new_user)
+
+    # Retorna os dados do usuário com o campo 'hashed_password' excluído
+    return {
+        "name": user.name,
+        "email": user.email,
+        "created_at": new_user["created_at"]
+    }
 
 @app.get("/api/data")
 def getData():
@@ -135,19 +182,27 @@ def webScrapping():
         return "Erro!"
 
 
-@app.post("/api/register")
-def register():
-    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
-
-    db = client['litoral_puro_rj']  
-    collection = db['usuario']  
-
+@app.post("/register", response_model=UserCreate)
+async def register(user: UserCreate):
     try:
-        return "Usuário criado com sucesso!"
-
+        # Tenta criar o usuário no banco de dados
+        created_user = create_user(user)
+        return JSONResponse(
+            content={"message": "Usuário criado com sucesso!", "user": created_user},
+            status_code=status.HTTP_201_CREATED
+        )
+    except ValueError as ve:
+        # Caso o email já esteja cadastrado
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(ve)
+        )
     except Exception as e:
-        print("Erro:", e)
-        return "Erro!"
+        # Caso ocorra qualquer outro erro
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Erro no servidor. Tente novamente mais tarde."
+        )
 
 
 @app.post("/api/login")
@@ -155,7 +210,7 @@ def login():
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
     db = client['litoral_puro_rj']
-    collection = db['usuario']  
+    collection = db['usuario']
 
     try:
         return "Usuário logado com sucesso!"
