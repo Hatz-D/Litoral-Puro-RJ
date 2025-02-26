@@ -182,7 +182,7 @@ def webScrapping():
         return "Erro!"
 
 
-@app.post("/register", response_model=UserCreate)
+@app.post("/api/register", response_model=UserCreate)
 async def register(user: UserCreate):
     try:
         # Tenta criar o usuário no banco de dados
