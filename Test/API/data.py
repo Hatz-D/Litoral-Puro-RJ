@@ -40,39 +40,31 @@ class UserCreate(BaseModel):
     class Config:
         orm_mode = True
 
-# Função para hash da senha
+# Função para criptografar a senha
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
 
-# Função para verificar se a senha corresponde ao hash
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
-
-# Função para criar o usuário no MongoDB
+# Função para criar o usuário
 def create_user(user: UserCreate, collection):
-    # Verifica se o e-mail já existe no banco de dados
     if collection.find_one({"email": user.email}):
         raise ValueError("Email já cadastrado")
-
-    # Criptografa a senha do usuário
+    
     hashed_password = hash_password(user.password)
+    created_at = datetime.utcnow()  # Objeto datetime
 
-    # Criação do documento de usuário
     new_user = {
         "name": user.name,
         "email": user.email,
         "hashed_password": hashed_password,
-        "created_at": datetime.utcnow()
+        "created_at": created_at
     }
-
-    # Inserção no MongoDB
+    
     collection.insert_one(new_user)
 
-    # Retorna os dados do usuário com o campo 'hashed_password' excluído
     return {
         "name": user.name,
         "email": user.email,
-        "created_at": new_user["created_at"]
+        "created_at": created_at.isoformat()  # Convertendo datetime para string
     }
 
 @app.get("/api/data")
@@ -182,28 +174,26 @@ def webScrapping():
         return "Erro!"
 
 
-@app.post("/api/register", response_model=UserCreate)
+@app.post("/api/register")
 async def register(user: UserCreate):
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
     db = client['litoral_puro_rj']
     collection = db['usuario']
+    
     try:
-        # Tenta criar o usuário no banco de dados
         created_user = create_user(user, collection)
         return JSONResponse(
             content={"message": "Usuário criado com sucesso!", "user": created_user},
             status_code=status.HTTP_201_CREATED
         )
     except ValueError as ve:
-        # Caso o email já esteja cadastrado
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(ve)
         )
     except Exception as e:
-        # Caso ocorra qualquer outro erro
-        print("Erro:", e)
+        print(e)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Erro no servidor. Tente novamente mais tarde."
