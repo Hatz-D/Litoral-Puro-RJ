@@ -49,7 +49,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 # Função para criar o usuário no MongoDB
-def create_user(user: UserCreate):
+def create_user(user: UserCreate, collection):
     # Verifica se o e-mail já existe no banco de dados
     if collection.find_one({"email": user.email}):
         raise ValueError("Email já cadastrado")
@@ -184,9 +184,13 @@ def webScrapping():
 
 @app.post("/api/register", response_model=UserCreate)
 async def register(user: UserCreate):
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+
+    db = client['litoral_puro_rj']
+    collection = db['usuario']
     try:
         # Tenta criar o usuário no banco de dados
-        created_user = create_user(user)
+        created_user = create_user(user, collection)
         return JSONResponse(
             content={"message": "Usuário criado com sucesso!", "user": created_user},
             status_code=status.HTTP_201_CREATED
