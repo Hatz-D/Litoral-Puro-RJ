@@ -129,6 +129,11 @@ gmp-map {
   height: 100%;
 }
 
+#user-info {
+    display: flex;
+    align-items: center;
+}
+
 #user-name {
     margin-right: 10px;
     font-size: 18px;
