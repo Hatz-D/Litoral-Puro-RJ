@@ -17,16 +17,15 @@
         <button onclick="window.location.href='../index.html'">Mapa</button>
         <button onclick="window.location.href='../lista/index.html'">Lista de Praias</button>
     </nav>
-        <div class="auth-buttons">
-            <button onclick="window.location.href='index.html'">Registrar/Login</button>
+    <div class="auth-buttons">
+        <button onclick="window.location.href='index.html'">Registrar/Login</button>
     </div>
 </header>
 
 <main>
-    <script src="index.js"></script>
     <div class="login-container">
     <h2>Login</h2>
-    <form action="/login" method="POST">
+    <form id="loginForm">
     <label for="email">E-mail</label>
     <input type="email" id="email" name="email" required>
       
@@ -36,6 +35,11 @@
     <button type="submit">Entrar</button>
     </form>
     <p>Não tem uma conta? <a href="/register/index.html">Cadastre-se</a></p>
+    
+    <!-- Exibe o nome do usuário após login -->
+    <div id="user-info" style="display:none;">
+        <h3>Bem-vindo, <span id="username"></span>!</h3>
+    </div>
     </div>
 </main>
 
