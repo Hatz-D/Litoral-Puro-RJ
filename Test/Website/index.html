@@ -17,9 +17,8 @@
             <button onclick="window.location.href='../lista/index.html'">Lista de Praias</button>
         </nav>
         <div class="auth-buttons">
-            <!-- Exibe o nome do usuário se estiver logado -->
-            <span id="user-name"></span>
-            <button onclick="window.location.href='../login/index.html'">Registrar/Login</button>
+            <!-- Exibe o botão de login ou logout, dependendo do estado de autenticação -->
+            <button id="auth-button"></button>
         </div>
     </header>
 
@@ -46,13 +45,22 @@
         // Verifica se há um nome de usuário armazenado no localStorage
         const userName = localStorage.getItem("userName");
 
+        const authButton = document.getElementById("auth-button");
+
         if (userName) {
-            // Exibe o nome do usuário
-            document.getElementById("user-name").textContent = `Bem-vindo, ${userName}!`;
-            document.getElementById("user-name").style.fontWeight = "bold";
+            // Se o usuário estiver logado, mostra o botão de logout
+            authButton.textContent = "Logout";
+            authButton.onclick = () => {
+                // Remove o nome do usuário do localStorage e redireciona para a tela de login
+                localStorage.removeItem("userName");
+                window.location.href = "/login/index.html"; // Redireciona para a tela de login após logout
+            };
         } else {
-            // Se não houver nome de usuário, redireciona para o login
-            window.location.href = "../login/index.html";
+            // Se o usuário não estiver logado, mostra o botão de login
+            authButton.textContent = "Registrar/Login";
+            authButton.onclick = () => {
+                window.location.href = "/login/index.html"; // Redireciona para a tela de login
+            };
         }
     </script>
 </body>
