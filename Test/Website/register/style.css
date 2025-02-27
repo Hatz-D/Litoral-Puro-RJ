@@ -172,3 +172,28 @@
   .register-container p a:hover {
     text-decoration: underline;
   }
+
+#user-info {
+    display: flex;
+    align-items: center;
+}
+
+#user-name {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+#auth-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#auth-button:hover {
+    background-color: #0056b3;
+}
