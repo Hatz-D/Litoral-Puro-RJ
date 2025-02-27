@@ -199,6 +199,7 @@ async def register(user: UserCreate):
         )
     except Exception as e:
         # Caso ocorra qualquer outro erro
+        print("Erro:", e)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Erro no servidor. Tente novamente mais tarde."
