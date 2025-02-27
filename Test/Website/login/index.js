@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("username").textContent = userName; // Define o nome no frontend
         
         // Redireciona para o dashboard
-        window.location.href = "/dashboard";
+        window.location.href = "/index.html";
       } else {
         const errorData = await response.json();
         alert("Erro: " + (errorData.message || "Falha no login"));
