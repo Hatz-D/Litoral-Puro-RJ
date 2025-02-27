@@ -17,7 +17,12 @@
             <button onclick="window.location.href='../lista/index.html'">Lista de Praias</button>
         </nav>
         <div class="auth-buttons">
-            <button onclick="window.location.href='../login/index.html'">Registrar/Login</button>
+            <!-- Exibe o botão de login ou o nome do usuário, dependendo do estado -->
+            <button onclick="window.location.href='../login/index.html'" id="login-btn">Registrar/Login</button>
+            <div id="user-info" style="display:none;">
+                <span>Bem-vindo, <span id="username"></span>!</span>
+                <button onclick="logout()">Sair</button>
+            </div>
         </div>
     </header>
     
