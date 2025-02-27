@@ -9,13 +9,13 @@
 <body>
     <header>
         <div class="logo">
-        <img src="../logo.png" alt="Logo">
+            <img src="../logo.png" alt="Logo">
         </div>
-            <nav>
+        <nav>
             <button onclick="window.location.href='../index.html'">Mapa</button>
             <button onclick="window.location.href='../lista/index.html'">Lista de Praias</button>
         </nav>
-            <div class="auth-buttons">
+        <div class="auth-buttons">
             <!-- Exibe o nome do usuário e o botão de logout, dependendo do estado de autenticação -->
             <div id="user-info">
                 <span id="user-name"></span>
@@ -23,25 +23,26 @@
             </div>
         </div>
     </header>
+    
     <main>
         <div class="register-container">
-           <h2>Registro</h2>
-           <form id="registerForm">
-               <label for="name">Nome de usuário</label>
-               <input type="text" id="name" name="name" required>
+            <h2>Registro</h2>
+            <form id="registerForm">
+                <label for="name">Nome de usuário</label>
+                <input type="text" id="name" name="name" required>
 
-               <label for="email">E-mail</label>
-               <input type="email" id="email" name="email" required>
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required>
 
-               <label for="password">Senha</label>
-               <input type="password" id="password" name="password" required>
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required>
 
-               <label for="confirmPassword">Confirme a Senha</label>
-               <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <label for="confirmPassword">Confirme a Senha</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
 
-               <button type="submit">Registrar</button>
-           </form>
-         <p>Já tem uma conta? <a href="/login/index.html">Entrar</a></p>
+                <button type="submit">Registrar</button>
+            </form>
+            <p>Já tem uma conta? <a href="/login/index.html">Entrar</a></p>
         </div>
 
         <script src="index.js"></script>
@@ -50,36 +51,37 @@
     <footer>
         <p>Litoral Puro - 2024</p>
     </footer>
-<script>
-    // Verifica se há um nome de usuário armazenado no localStorage
-    const userName = localStorage.getItem("userName");
-    
-    const userNameElement = document.getElementById("user-name");
-    const authButton = document.getElementById("auth-button");
 
-    if (userName) {
-        // Se o usuário estiver logado, mostra o nome e o botão de logout
-        userNameElement.textContent = `Bem-vindo, ${userName}!`;
-        authButton.textContent = "Logout";
-        authButton.onclick = () => {
-        // Remove o nome do usuário do localStorage
-            localStorage.removeItem("userName");
+    <script>
+        // Verifica se há um nome de usuário armazenado no localStorage
+        const userName = localStorage.getItem("userName");
+        
+        const userNameElement = document.getElementById("user-name");
+        const authButton = document.getElementById("auth-button");
 
-            // Atualiza a interface para refletir que o usuário deslogou
+        if (userName) {
+            // Se o usuário estiver logado, mostra o nome e o botão de logout
+            userNameElement.textContent = `Bem-vindo, ${userName}!`;
+            authButton.textContent = "Logout";
+            authButton.onclick = () => {
+                // Remove o nome do usuário do localStorage
+                localStorage.removeItem("userName");
+
+                // Atualiza a interface para refletir que o usuário deslogou
+                userNameElement.textContent = '';
+                authButton.textContent = "Registrar/Login";
+
+                // Não redireciona para nenhuma página após o logout
+                alert("Você foi deslogado com sucesso.");
+            };
+        } else {
+            // Se o usuário não estiver logado, mostra o botão de login
             userNameElement.textContent = '';
             authButton.textContent = "Registrar/Login";
-
-            // Não redireciona para nenhuma página após o logout
-            alert("Você foi deslogado com sucesso.");
-        };
-    else {
-        // Se o usuário não estiver logado, mostra o botão de login
-        userNameElement.textContent = '';
-        authButton.textContent = "Registrar/Login";
-        authButton.onclick = () => {
-            window.location.href = "/login/index.html"; // Redireciona para a tela de login
-        };
-    }
+            authButton.onclick = () => {
+                window.location.href = "/login/index.html"; // Redireciona para a tela de login
+            };
+        }
 </script>    
 </body>
 </html>
