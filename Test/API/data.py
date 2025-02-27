@@ -40,9 +40,19 @@ class UserCreate(BaseModel):
     class Config:
         orm_mode = True
 
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+    class Config:
+        orm_mode = True
+
 # Função para criptografar a senha
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
 
 # Função para criar o usuário
 def create_user(user: UserCreate, collection):
@@ -66,6 +76,18 @@ def create_user(user: UserCreate, collection):
         "email": user.email,
         "created_at": created_at.isoformat()  # Convertendo datetime para string
     }
+
+
+def verify_user_credentials(email: str, password: str, collection):
+    user = collection.find_one({"email": email})
+    if user is None:
+        return None
+    if verify_password(password, user["hashed_password"]):
+        return {
+            "name": user["name"],
+            "email": user["email"]
+        }
+    return None
 
 @app.get("/api/data")
 def getData():
@@ -201,15 +223,19 @@ async def register(user: UserCreate):
 
 
 @app.post("/api/login")
-def login():
+async def login(user: UserLogin):
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
     db = client['litoral_puro_rj']
     collection = db['usuario']
-
-    try:
-        return "Usuário logado com sucesso!"
-
-    except Exception as e:
-        print("Erro:", e)
-        return "Erro!"
+    
+    authenticated_user = verify_user_credentials(user.email, user.password, collection)
+    if authenticated_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciais inválidas"
+        )
+    return JSONResponse(
+        content={"message": "Login bem-sucedido", "user": authenticated_user},
+        status_code=status.HTTP_200_OK
+    )
