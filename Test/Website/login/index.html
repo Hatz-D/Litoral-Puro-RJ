@@ -11,45 +11,41 @@
 
 <header>
     <div class="logo">
-    <img src="../logo.png" alt="Logo">
+        <img src="../logo.png" alt="Logo">
     </div>
-        <nav>
+    <nav>
         <button onclick="window.location.href='../index.html'">Mapa</button>
         <button onclick="window.location.href='../lista/index.html'">Lista de Praias</button>
     </nav>
     <div class="auth-buttons">
-            <!-- Exibe o nome do usuário e o botão de logout, dependendo do estado de autenticação -->
-            <div id="user-info">
-                <span id="user-name"></span>
-                <button id="auth-button"></button>
-            </div>
+        <!-- Exibe o nome do usuário e o botão de logout, dependendo do estado de autenticação -->
+        <div id="user-info">
+            <span id="user-name"></span>
+            <button id="auth-button"></button>
         </div>
+    </div>
 </header>
 
 <main>
     <div class="login-container">
-    <h2>Login</h2>
-    <form id="loginForm">
-    <label for="email">E-mail</label>
-    <input type="email" id="email" name="email" required>
-      
-    <label for="password">Senha</label>
-    <input type="password" id="password" name="password" required>
-      
-    <button type="submit">Entrar</button>
-    </form>
-    <p>Não tem uma conta? <a href="/register/index.html">Cadastre-se</a></p>
-    
-    <!-- Exibe o nome do usuário após login -->
-    <div id="user-info" style="display:none;">
-        <h3>Bem-vindo, <span id="username"></span>!</h3>
-    </div>
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Entrar</button>
+        </form>
+        <p>Não tem uma conta? <a href="/register/index.html">Cadastre-se</a></p>
     </div>
 </main>
 
 <footer>
     <p>Litoral Puro - 2024</p>
 </footer>
+
 <script>
     // Verifica se há um nome de usuário armazenado no localStorage
     const userName = localStorage.getItem("userName");
@@ -62,7 +58,7 @@
         userNameElement.textContent = `Bem-vindo, ${userName}!`;
         authButton.textContent = "Logout";
         authButton.onclick = () => {
-        // Remove o nome do usuário do localStorage
+            // Remove o nome do usuário do localStorage
             localStorage.removeItem("userName");
 
             // Atualiza a interface para refletir que o usuário deslogou
@@ -72,7 +68,7 @@
             // Não redireciona para nenhuma página após o logout
             alert("Você foi deslogado com sucesso.");
         };
-    else {
+    } else {
         // Se o usuário não estiver logado, mostra o botão de login
         userNameElement.textContent = '';
         authButton.textContent = "Registrar/Login";
