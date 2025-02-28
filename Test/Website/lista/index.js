@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function fetchData() {
-    fetch('http://dioguitoposeidon.com.br:8000/api/data')
+    fetch('https://dioguitoposeidon.com.br:8000/api/data')
     .then(response => response.json())
     .then(data => {
         displayData(data);
