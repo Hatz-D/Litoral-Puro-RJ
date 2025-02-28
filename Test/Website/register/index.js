@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
   
       try {
         // Envia uma requisição POST para a API de registro
-        const response = await fetch("http://dioguitoposeidon.com.br:8000/api/register", {
+        const response = await fetch("https://dioguitoposeidon.com.br:8000/api/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
