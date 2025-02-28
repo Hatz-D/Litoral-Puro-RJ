@@ -1,5 +1,5 @@
 async function loadGoogleMaps() {
-  const response = await fetch('http://dioguitoposeidon.com.br:8000/api/map');
+  const response = await fetch('https://dioguitoposeidon.com.br:8000/api/map');
   const data = await response.json();
 
   if (!response.ok) {
@@ -37,7 +37,7 @@ async function loadMarkers(map, data) {
     }
 }
 
-  const responseCoord = await fetch('http://dioguitoposeidon.com.br:8000/api/coordinates');
+  const responseCoord = await fetch('https://dioguitoposeidon.com.br:8000/api/coordinates');
   const coords = await responseCoord.json();
   const cleanedString = coords.replace(/^"|"$/g, '').replace(/\\"/g, '"');
   const coordenadas = JSON.parse(cleanedString);
@@ -102,7 +102,7 @@ async function loadMarkers(map, data) {
 }
 
 function fetchData(map) {
-  fetch('http://dioguitoposeidon.com.br:8000/api/data')
+  fetch('https://dioguitoposeidon.com.br:8000/api/data')
   .then(response => response.json())
   .then(data => {
       loadMarkers(map, data);
