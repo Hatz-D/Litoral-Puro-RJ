@@ -20,7 +20,7 @@ MAPS_API = os.getenv("MAPS_API")
 MONGO_URI = os.getenv("MONGO_URI")
 
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-ssl_context.load_cert_chain('/var/lib/jenkins/workspace/Webscraping/letsencrypt/live/dioguitoposeidon.com.br/fullchain.pem', keyfile='/var/lib/jenkins/workspace/Webscraping/letsencrypt/live/dioguitoposeidon.com.br/privkey.pem')
+ssl_context.load_cert_chain('./fullchain.pem', keyfile='./privkey.pem')
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
