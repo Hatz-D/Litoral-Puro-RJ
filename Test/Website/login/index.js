@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const password = document.querySelector("#password").value;
 
     try {
-      const response = await fetch("http://dioguitoposeidon.com.br:8000/api/login", {
+      const response = await fetch("https://dioguitoposeidon.com.br:8000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
