@@ -12,11 +12,15 @@ from unidecode import unidecode
 from datetime import datetime
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr, constr
+import ssl
 
 app = FastAPI()
 
 MAPS_API = os.getenv("MAPS_API")
 MONGO_URI = os.getenv("MONGO_URI")
+
+ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+ssl_context.load_cert_chain('/var/lib/jenkins/workspace/Webscraping/letsencrypt/live/dioguitoposeidon.com.br/fullchain.pem', keyfile='/var/lib/jenkins/workspace/Webscraping/letsencrypt/live/dioguitoposeidon.com.br/privkey.pem')
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -58,7 +62,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 def create_user(user: UserCreate, collection):
     if collection.find_one({"email": user.email}):
         raise ValueError("Email já cadastrado")
-    
+
     hashed_password = hash_password(user.password)
     created_at = datetime.utcnow()  # Objeto datetime
 
@@ -68,7 +72,7 @@ def create_user(user: UserCreate, collection):
         "hashed_password": hashed_password,
         "created_at": created_at
     }
-    
+
     collection.insert_one(new_user)
 
     return {
@@ -202,7 +206,7 @@ async def register(user: UserCreate):
 
     db = client['litoral_puro_rj']
     collection = db['usuario']
-    
+
     try:
         created_user = create_user(user, collection)
         return JSONResponse(
@@ -228,7 +232,7 @@ async def login(user: UserLogin):
 
     db = client['litoral_puro_rj']
     collection = db['usuario']
-    
+
     authenticated_user = verify_user_credentials(user.email, user.password, collection)
     if authenticated_user is None:
         raise HTTPException(
