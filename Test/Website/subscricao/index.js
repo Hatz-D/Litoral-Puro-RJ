@@ -1,6 +1,27 @@
-document.addEventListener('DOMContentLoaded', function() {
-    fetchData();
-});
+// Verifica se há um nome de usuário armazenado no localStorage
+const userName = localStorage.getItem("userName");
+const userNameElement = document.getElementById("user-name");
+const authButton = document.getElementById("auth-button");
+
+if (userName) {
+    userNameElement.textContent = `Bem-vindo, ${userName}!`;
+    authButton.textContent = "Logout";
+    authButton.onclick = () => {
+        localStorage.removeItem("userName");
+        userNameElement.textContent = '';
+        authButton.textContent = "Registrar/Login";
+        alert("Você foi deslogado com sucesso.");
+        window.location.href = "index.html";
+    };
+} else {
+    userNameElement.textContent = '';
+    authButton.textContent = "Registrar/Login";
+    authButton.onclick = () => {
+        window.location.href = "/login/index.html";
+    };
+}
+
+let selectedItems = [];
 
 function fetchData() {
     fetch('https://dioguitoposeidon.com.br:8000/api/data')
@@ -15,11 +36,8 @@ function fetchData() {
 
 function displayData(data) {
     const dataContainer = document.getElementById("data-container");
-
-    // Limpa o conteúdo anterior
     dataContainer.innerHTML = '';
-
-    // Se o dado for uma string, tenta fazer o parse para JSON
+            
     if (typeof data === 'string') {
         try {
             data = JSON.parse(data);
@@ -29,18 +47,13 @@ function displayData(data) {
         }
     }
 
-    // Verifica se todos os campos necessários existem e são objetos
     if (data.Praia && data.Local && data.Qualidade && data.Municipio && data.Data) {
         const table = document.createElement('table');
         table.setAttribute("id", "myTable");
         table.classList.add('data-table');
-
-        // Cria o cabeçalho da tabela
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
-
-        // Define os cabeçalhos das colunas
-        const headers = ['Praia', 'Local', 'Qualidade', 'Municipio', 'Data'];
+        const headers = ['Praia', 'Local', 'Qualidade', 'Municipio', 'Data', 'Selecionar'];
 
         headers.forEach(header => {
             const th = document.createElement('th');
@@ -50,17 +63,11 @@ function displayData(data) {
 
         thead.appendChild(headerRow);
         table.appendChild(thead);
-
-        // Cria o corpo da tabela
         const tbody = document.createElement('tbody');
-
-        // Como os dados estão organizados com chaves numéricas, vamos iterar sobre essas chaves
-        const keys = Object.keys(data.Praia); // Usando 'Praia' para obter as chaves numéricas
+        const keys = Object.keys(data.Praia);
 
         keys.forEach(key => {
             const row = document.createElement('tr');
-
-            // Cria uma célula para cada coluna (Praia, Local, Qualidade, Municipio, Data)
             const rowData = [
                 data.Praia[key] || 'N/A',
                 data.Local[key] || 'N/A',
@@ -75,15 +82,60 @@ function displayData(data) {
                 row.appendChild(cell);
             });
 
+            const selectCell = document.createElement('td');
+            const selectButton = document.createElement('button');
+            selectButton.textContent = 'Selecionar';
+            selectButton.onclick = () => toggleSelection(key, selectButton);
+            selectCell.appendChild(selectButton);
+            row.appendChild(selectCell);
             tbody.appendChild(row);
         });
 
         table.appendChild(tbody);
-        dataContainer.appendChild(table);  // Adiciona a tabela ao container
+        dataContainer.appendChild(table);
     } else {
         dataContainer.textContent = 'Formato inválido: dados incompletos.';
     }
 }
+
+function toggleSelection(key, button) {
+    const index = selectedItems.indexOf(key);
+    if (index > -1) {
+        selectedItems.splice(index, 1);
+        button.textContent = 'Selecionar';
+    } else {
+        selectedItems.push(key);
+        button.textContent = 'Desmarcar';
+    }
+    document.getElementById('submit-btn').style.display = selectedItems.length > 0 ? 'block' : 'none';
+}
+
+function submitSelections() {
+    const userEmail = localStorage.getItem("userEmail");
+    if (!userEmail) {
+        alert('Você precisa estar logado para enviar as seleções.');
+        return;
+    }
+
+    fetch('https://dioguitoposeidon.com.br:8000/api/save-selections', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: userEmail, selectedItems })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Seleções enviadas com sucesso!');
+    })
+    .catch(error => {
+        console.error('Erro ao enviar as seleções:', error);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetchData();
+});
 
 function tableFilter() {
     // Declare variables
