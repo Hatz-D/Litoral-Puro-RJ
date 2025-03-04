@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await response.json();
             if (response.ok) {
                 sessionStorage.setItem("access_token", data.access_token);
+                sessionStorage.setItem("username", data.user.name);
                 alert("Registro realizado com sucesso!");
                 window.location.href = "../index.html";
             } else {
@@ -57,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             // Decodifica o token JWT para obter as informações do usuário
             const payload = JSON.parse(atob(token.split(".")[1]));
-            const userName = payload.name || "Usuário";
+            const userName = payload.name || username;
 
             userNameElement.textContent = `Bem-vindo, ${userName}!`;
             authButton.textContent = "Logout";
