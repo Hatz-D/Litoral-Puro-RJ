@@ -16,7 +16,6 @@
             <button onclick="window.location.href='../lista/index.html'">Lista de Praias</button>
         </nav>
         <div class="auth-buttons">
-            <!-- Exibe o nome do usuário e o botão de logout, dependendo do estado de autenticação -->
             <div id="user-info">
                 <span id="user-name"></span>
                 <button id="auth-button"></button>
@@ -44,45 +43,12 @@
             </form>
             <p>Já tem uma conta? <a href="/login/index.html">Entrar</a></p>
         </div>
-
-        <script src="index.js"></script>
     </main>
 
     <footer>
         <p>Litoral Puro - 2024</p>
     </footer>
 
-    <script>
-        // Verifica se há um nome de usuário armazenado no localStorage
-        const userName = localStorage.getItem("userName");
-        
-        const userNameElement = document.getElementById("user-name");
-        const authButton = document.getElementById("auth-button");
-
-        if (userName) {
-            // Se o usuário estiver logado, mostra o nome e o botão de logout
-            userNameElement.textContent = `Bem-vindo, ${userName}!`;
-            authButton.textContent = "Logout";
-            authButton.onclick = () => {
-                // Remove o nome do usuário do localStorage
-                localStorage.removeItem("userName");
-
-                // Atualiza a interface para refletir que o usuário deslogou
-                userNameElement.textContent = '';
-                authButton.textContent = "Registrar/Login";
-
-                // Não redireciona para nenhuma página após o logout
-                alert("Você foi deslogado com sucesso.");
-                window.location.href = "index.html";
-            };
-        } else {
-            // Se o usuário não estiver logado, mostra o botão de login
-            userNameElement.textContent = '';
-            authButton.textContent = "Registrar/Login";
-            authButton.onclick = () => {
-                window.location.href = "/login/index.html"; // Redireciona para a tela de login
-            };
-        }
-</script>    
+    <script src="index.js"></script>
 </body>
 </html>
