@@ -25,8 +25,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (response.ok) {
                 const data = await response.json();
-                alert("Registro realizado com sucesso!");
-                window.location.href = "/login/index.html";
+                 sessionStorage.setItem("access_token", data.access_token);
+                 alert("Registro realizado com sucesso!");
+                 window.location.href = "../index.html";
             } else {
                 const errorData = await response.json();
                 alert("Erro: " + (errorData.detail || "Falha no registro"));
