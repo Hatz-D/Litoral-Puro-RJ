@@ -1,8 +1,5 @@
-from fastapi import FastAPI, HTTPException, status, Depends
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import FastAPI, HTTPException, status
 import json
-from jose import JWTError, jwt
-from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import requests
@@ -12,9 +9,8 @@ from pymongo.server_api import ServerApi
 import pandas as pd
 from bs4 import BeautifulSoup as bs
 from unidecode import unidecode
-from datetime import datetime, timedelta
+from datetime import datetime
 from passlib.context import CryptContext
-import bcrypt
 from pydantic import BaseModel, EmailStr, constr
 import ssl
 
@@ -22,15 +18,11 @@ app = FastAPI()
 
 MAPS_API = os.getenv("MAPS_API")
 MONGO_URI = os.getenv("MONGO_URI")
-SECRET_KEY = str(os.getenv("SECRET_KEY"))
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 ssl_context.load_cert_chain('./fullchain.pem', keyfile='./privkey.pem')
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 origins = [
     "*"
@@ -49,18 +41,15 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: constr(min_length=6)
 
+    class Config:
+        orm_mode = True
+
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
-class TokenData(BaseModel):
-    email: str
-
-def create_access_token(data: dict, expires_delta: timedelta):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + expires_delta
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    class Config:
+        orm_mode = True
 
 # Função para criptografar a senha
 def hash_password(password: str) -> str:
@@ -69,12 +58,13 @@ def hash_password(password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
+# Função para criar o usuário
 def create_user(user: UserCreate, collection):
     if collection.find_one({"email": user.email}):
         raise ValueError("Email já cadastrado")
 
     hashed_password = hash_password(user.password)
-    created_at = datetime.utcnow()
+    created_at = datetime.utcnow()  # Objeto datetime
 
     new_user = {
         "name": user.name,
@@ -88,7 +78,7 @@ def create_user(user: UserCreate, collection):
     return {
         "name": user.name,
         "email": user.email,
-        "created_at": created_at.isoformat()
+        "created_at": created_at.isoformat()  # Convertendo datetime para string
     }
 
 
@@ -96,11 +86,11 @@ def verify_user_credentials(email: str, password: str, collection):
     user = collection.find_one({"email": email})
     if user is None:
         return None
-
-    # Verificar a senha corretamente (sem re-hashar)
     if verify_password(password, user["hashed_password"]):
-        return {"name": user["name"], "email": user["email"]}
-
+        return {
+            "name": user["name"],
+            "email": user["email"]
+        }
     return None
 
 @app.get("/api/data")
@@ -213,30 +203,20 @@ def webScrapping():
 @app.post("/api/register")
 async def register(user: UserCreate):
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+
     db = client['litoral_puro_rj']
     collection = db['usuario']
 
     try:
         created_user = create_user(user, collection)
-
-        # Gerar token JWT
-        token_data = {"sub": created_user["email"]}
-        access_token = create_access_token(token_data, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-
         return JSONResponse(
-            content={
-                "message": "Usuário criado com sucesso!",
-                "user": created_user,
-                "access_token": access_token,
-                "token_type": "bearer"
-            },
+            content={"message": "Usuário criado com sucesso!", "user": created_user},
             status_code=status.HTTP_201_CREATED
         )
     except ValueError as ve:
-        print(ve)
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="E-mail já cadastrado!"
+            detail=str(ve)
         )
     except Exception as e:
         print(e)
@@ -249,43 +229,17 @@ async def register(user: UserCreate):
 @app.post("/api/login")
 async def login(user: UserLogin):
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+
     db = client['litoral_puro_rj']
     collection = db['usuario']
-    
-    stored_user = collection.find_one({"email": user.email})
-    
-    if not stored_user or not pwd_context.verify(user.password, stored_user["hashed_password"]):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciais inválidas")
-    
-    # Cria um token JWT
-    token = create_access_token({"sub": user.email}, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
 
-    # Retornar apenas as informações necessárias
+    authenticated_user = verify_user_credentials(user.email, user.password, collection)
+    if authenticated_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciais inválidas"
+        )
     return JSONResponse(
-        content={
-            "token": token,
-            "user": {
-                "name": stored_user["name"],
-                "email": stored_user["email"]
-            }
-        },
+        content={"message": "Login bem-sucedido", "user": authenticated_user},
         status_code=status.HTTP_200_OK
     )
-
-@app.get("/api/me")
-async def get_user_info(token: str = Depends(oauth2_scheme)):
-    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
-    db = client['litoral_puro_rj']
-    collection = db['usuario']
-    
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email = payload.get("sub")
-        if not email:
-            raise HTTPException(status_code=401, detail="Token inválido")
-        user = collection.find_one({"email": email}, {"_id": 0, "name": 1, "email": 1})
-        if not user:
-            raise HTTPException(status_code=404, detail="Usuário não encontrado")
-        return user
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Token inválido")
