@@ -1,0 +1,178 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #e8e8fc;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Garante que o body ocupe toda a altura da tela */
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #a393eb;
+  position: fixed; /* Fixa o header no topo */
+  top: 0;
+  width: 100%; /* Garante que o header ocupe toda a largura */
+  z-index: 1000; /* Garante que o header fique sobre os outros elementos */
+}
+
+/* Adiciona margem no topo para evitar que o conteúdo sobreponha o header */
+main {
+  flex-grow: 1; /* Garante que o conteúdo principal ocupe o espaço necessário */
+  margin-top: 80px; /* Ajusta a margem com base na altura do header */
+  padding: 20px; /* Adiciona um padding no main para espaçamento */
+}
+
+.logo img {
+  height: 60px;
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+}
+
+nav button {
+  padding: 10px 20px;
+  background-color: #fff;
+  border: 2px solid #999;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+nav button:hover {
+  background-color: #ddd;
+}
+
+.auth-buttons button {
+  padding: 10px 20px;
+  background-color: #fff;
+  border: 2px solid #999;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-buttons button:hover {
+  background-color: #ddd;
+}
+
+/* Estilizando o campo de busca com borda arredondada */
+#myInput {
+  background-image: url('/css/searchicon.png'); /* Adiciona um ícone de busca */
+  background-position: 10px 12px; /* Posiciona o ícone */
+  background-repeat: no-repeat; /* Evita repetição do ícone */
+  width: 100%; /* Define largura total */
+  font-size: 16px; /* Aumenta o tamanho da fonte */
+  padding: 12px 20px 12px 40px; /* Adiciona padding interno */
+  border: 1px solid #ddd; /* Adiciona borda cinza */
+  border-radius: 25px; /* Define bordas arredondadas */
+  margin-bottom: 12px; /* Espaçamento inferior */
+  outline: none; /* Remove o outline padrão */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adiciona sombra leve */
+  transition: box-shadow 0.3s ease; /* Transição suave para a sombra */
+}
+
+#myInput:focus {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada no foco */
+  border-color: #a393eb; /* Muda a cor da borda no foco */
+}
+
+/* Ajustando a tabela para que não ocupe toda a largura da página */
+#myTable {
+  border-collapse: collapse; /* Colapsa as bordas */
+  width: 80%; /* Define a largura para 80% */
+  margin: 0 auto; /* Centraliza a tabela */
+  border: 1px solid #ddd; /* Adiciona uma borda cinza */
+  font-size: 18px; /* Aumenta o tamanho da fonte */
+  background-color: #fff; /* Define fundo branco */
+  border-radius: 10px; /* Bordas arredondadas na tabela */
+  overflow: hidden; /* Esconde transbordamento */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adiciona sombra à tabela */
+}
+
+#myTable th, #myTable td {
+  text-align: left; /* Alinhamento à esquerda */
+  padding: 12px; /* Adiciona padding */
+}
+
+#myTable th {
+  background-color: #a393eb; /* Fundo da linha do cabeçalho */
+  color: #fff; /* Cor do texto do cabeçalho */
+  font-weight: bold; /* Negrito no cabeçalho */
+}
+
+#myTable tr {
+/* Adiciona uma borda inferior nas linhas */
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  /* Adiciona cor de fundo ao cabeçalho e no hover */
+  background-color: #f1f1f1;
+}
+
+/* Garante que o footer sempre fique na parte inferior */
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #a393eb;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  flex-shrink: 0; /* Garante que o footer não encolha */
+}
+
+#user-info {
+    display: flex;
+    align-items: center;
+}
+
+#user-name {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+#auth-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#auth-button:hover {
+    background-color: #0056b3;
+}
+
+/* Melhorias adicionais no layout para garantir responsividade */
+@media (max-width: 768px) {
+  #myTable {
+      width: 100%; /* Para telas pequenas, a tabela ocupa 100% da largura */
+  }
+
+  nav {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .auth-buttons {
+      margin-top: 10px;
+  }
+}
