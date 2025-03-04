@@ -13,7 +13,7 @@ import pandas as pd
 from bs4 import BeautifulSoup as bs
 from unidecode import unidecode
 from datetime import datetime, timedelta
-import passlib
+from passlib.context import CryptContext
 import bcrypt
 from pydantic import BaseModel, EmailStr, constr
 import ssl
