@@ -283,7 +283,7 @@ async def get_user_info(token: str = Depends(oauth2_scheme)):
         email = payload.get("sub")
         if not email:
             raise HTTPException(status_code=401, detail="Token inválido")
-        user = collection.find_one({"email": email}, {"_id": 0, "name": 1})
+        user = collection.find_one({"email": email}, {"_id": 0, "name": 1, "email": 1})
         if not user:
             raise HTTPException(status_code=404, detail="Usuário não encontrado")
         return user
