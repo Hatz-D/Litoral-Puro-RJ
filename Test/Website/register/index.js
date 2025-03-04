@@ -30,8 +30,10 @@ document.addEventListener("DOMContentLoaded", function() {
           const data = await response.json();
           console.log("Registro bem-sucedido!", data);
           alert("Registro realizado com sucesso!");
+          localStorage.setItem("userName", data.user.name);
+            
           // Redireciona para a página de login ou dashboard
-          window.location.href = "/login";
+          window.location.href = "/index.html";
         } else {
           const errorData = await response.json();
           alert("Erro: " + (errorData.message || "Falha no registro"));
