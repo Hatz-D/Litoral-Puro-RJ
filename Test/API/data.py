@@ -1,5 +1,8 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Depends
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import json
+from jose import JWTError, jwt
+from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import requests
@@ -9,7 +12,7 @@ from pymongo.server_api import ServerApi
 import pandas as pd
 from bs4 import BeautifulSoup as bs
 from unidecode import unidecode
-from datetime import datetime
+from datetime import datetime, timedelta
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr, constr
 import ssl
@@ -18,11 +21,15 @@ app = FastAPI()
 
 MAPS_API = os.getenv("MAPS_API")
 MONGO_URI = os.getenv("MONGO_URI")
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 ssl_context.load_cert_chain('./fullchain.pem', keyfile='./privkey.pem')
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 origins = [
     "*"
@@ -48,8 +55,14 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
-    class Config:
-        orm_mode = True
+class TokenData(BaseModel):
+    email: str
+
+def create_access_token(data: dict, expires_delta: timedelta):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + expires_delta
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 # Função para criptografar a senha
 def hash_password(password: str) -> str:
@@ -228,18 +241,26 @@ async def register(user: UserCreate):
 
 @app.post("/api/login")
 async def login(user: UserLogin):
-    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+    stored_user = collection.find_one({"email": user.email})
+    
+    if not stored_user or not pwd_context.verify(user.password, stored_user["hashed_password"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciais inválidas")
+    
+    # Cria um token JWT
+    token = create_access_token({"sub": user.email}, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
 
-    db = client['litoral_puro_rj']
-    collection = db['usuario']
+    return JSONResponse(content={"token": token}, status_code=status.HTTP_200_OK)
 
-    authenticated_user = verify_user_credentials(user.email, user.password, collection)
-    if authenticated_user is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Credenciais inválidas"
-        )
-    return JSONResponse(
-        content={"message": "Login bem-sucedido", "user": authenticated_user},
-        status_code=status.HTTP_200_OK
-    )
+@app.get("/api/me")
+async def get_user_info(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email = payload.get("sub")
+        if not email:
+            raise HTTPException(status_code=401, detail="Token inválido")
+        user = collection.find_one({"email": email}, {"_id": 0, "name": 1})
+        if not user:
+            raise HTTPException(status_code=404, detail="Usuário não encontrado")
+        return user
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Token inválido")
