@@ -13,6 +13,7 @@ from datetime import datetime
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr, constr
 import ssl
+from typing import List
 
 app = FastAPI()
 
@@ -243,3 +244,41 @@ async def login(user: UserLogin):
         content={"message": "Login bem-sucedido", "user": authenticated_user},
         status_code=status.HTTP_200_OK
     )
+
+
+class SelectionRequest(BaseModel):
+    email: str
+    selectedItems: List[str]
+
+@app.post("/api/save-selections")
+async def save_selections(request: SelectionRequest):
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+
+    db = client['litoral_puro_rj']
+    collection = db['subscricao']
+    
+    email = request.email
+    selected_items = request.selectedItems
+    
+    existing_entry = collection.find_one({"email": email})
+    
+    if existing_entry:
+        collection.update_one({"email": email}, {"$set": {"selectedItems": selected_items}})
+    else:
+        collection.insert_one({"email": email, "selectedItems": selected_items})
+    
+    return JSONResponse(status_code=200, content={"message": "Seleções salvas com sucesso!"})
+
+@app.get("/api/get-selections/{email}")
+async def get_selections(email: str):
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+
+    db = client['litoral_puro_rj']
+    collection = db['subscricao']
+    
+    user_selections = collection.find_one({"email": email})
+    
+    if user_selections:
+        return user_selections
+    else:
+        raise HTTPException(status_code=404, detail="Seleções não encontradas.")
