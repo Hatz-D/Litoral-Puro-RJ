@@ -237,7 +237,7 @@ async def register(user: UserCreate):
         print(ve)
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(ve)
+            detail="E-mail já cadastrado!"
         )
     except Exception as e:
         print(e)
