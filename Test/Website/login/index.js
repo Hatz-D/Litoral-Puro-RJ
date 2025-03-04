@@ -20,8 +20,9 @@ document.addEventListener("DOMContentLoaded", function() {
         const data = await response.json();
         console.log("Login bem-sucedido!", data);
 
-        // Armazena o nome do usuário no localStorage
+        // Armazena o nome do usuário e email no localStorage
         localStorage.setItem("userName", data.user.name);
+        localStorage.setItem("userEmail", data.user.email);
 
         // Redireciona para a página inicial (index.html)
         window.location.href = "/index.html";
