@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.querySelector("#registerForm");
 
-    registerForm.addEventListener("submit", async function(event) {
+    registerForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
         const name = document.querySelector("#name").value;
@@ -14,29 +14,38 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // 🔹 Gera hash da senha usando SHA-256
+        const passwordHash = await hashPassword(password);
+
         try {
             const response = await fetch("https://dioguitoposeidon.com.br:8000/api/register", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ name, email, password })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password: passwordHash }) // 🔹 Envia a senha como hash
             });
 
+            const data = await response.json();
             if (response.ok) {
-                const data = await response.json();
-                 sessionStorage.setItem("access_token", data.access_token);
-                 alert("Registro realizado com sucesso!");
-                 window.location.href = "../index.html";
+                sessionStorage.setItem("access_token", data.access_token);
+                alert("Registro realizado com sucesso!");
+                window.location.href = "/dashboard";
             } else {
-                const errorData = await response.json();
-                alert("Erro: " + (errorData.detail || "Falha no registro"));
+                alert("Erro: " + (data.message || "Falha no registro"));
             }
         } catch (error) {
             console.error("Erro na requisição:", error);
             alert("Erro de conexão. Por favor, tente novamente.");
         }
     });
+
+    async function hashPassword(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+        return Array.from(new Uint8Array(hashBuffer))
+            .map(byte => byte.toString(16).padStart(2, "0"))
+            .join("");
+    }
     
     const userNameElement = document.getElementById("user-name");
     const authButton = document.getElementById("auth-button");
