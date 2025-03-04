@@ -233,12 +233,18 @@ async def register(user: UserCreate):
             },
             status_code=status.HTTP_201_CREATED
         )
-    except ValueError as ve:
-        print(e)
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(ve))
+  except ValueError as ve:
+        raise HTTPException(
+            print(e)
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(ve)
+        )
     except Exception as e:
         print(e)
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro no servidor.")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Erro no servidor. Tente novamente mais tarde."
+        )
 
 
 @app.post("/api/login")
@@ -250,6 +256,7 @@ async def login(user: UserLogin):
     stored_user = collection.find_one({"email": user.email})
     
     if not stored_user or not pwd_context.verify(user.password, stored_user["hashed_password"]):
+        print(e)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciais inválidas")
     
     # Cria um token JWT
