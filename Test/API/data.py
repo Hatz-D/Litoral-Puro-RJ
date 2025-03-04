@@ -97,8 +97,6 @@ def verify_user_credentials(email: str, password: str, collection):
     if user is None:
         return None
 
-    hashed_password = hash_password(password)  # 🔹 Aplica o segundo hash antes de verificar
-
     if verify_password(hashed_password, user["hashed_password"]):  
         return {"name": user["name"], "email": user["email"]}
     
@@ -256,7 +254,6 @@ async def login(user: UserLogin):
     stored_user = collection.find_one({"email": user.email})
     
     if not stored_user or not pwd_context.verify(user.password, stored_user["hashed_password"]):
-        print(e)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciais inválidas")
     
     # Cria um token JWT
