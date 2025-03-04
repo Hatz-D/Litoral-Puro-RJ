@@ -259,9 +259,17 @@ async def login(user: UserLogin):
     # Cria um token JWT
     token = create_access_token({"sub": user.email}, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
 
-    stored_user["_id"] = str(stored_user["_id"])
-    
-    return JSONResponse(content={"token": token, "user": stored_user}, status_code=status.HTTP_200_OK)
+    # Retornar apenas as informações necessárias
+    return JSONResponse(
+        content={
+            "token": token,
+            "user": {
+                "name": stored_user["name"],
+                "email": stored_user["email"]
+            }
+        },
+        status_code=status.HTTP_200_OK
+    )
 
 @app.get("/api/me")
 async def get_user_info(token: str = Depends(oauth2_scheme)):
