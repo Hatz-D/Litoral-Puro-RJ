@@ -262,6 +262,8 @@ async def login(user: UserLogin):
     # Cria um token JWT
     token = create_access_token({"sub": user.email}, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
 
+    stored_user["_id"] = str(stored_user["_id"])
+    
     return JSONResponse(content={"token": token, "user": stored_user}, status_code=status.HTTP_200_OK)
 
 @app.get("/api/me")
