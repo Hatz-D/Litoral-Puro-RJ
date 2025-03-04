@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
           console.log("Registro bem-sucedido!", data);
           alert("Registro realizado com sucesso!");
           localStorage.setItem("userName", data.user.name);
+          localStorage.setItem("userEmail", data.user.email);
             
           // Redireciona para a página de login ou dashboard
           window.location.href = "/index.html";
