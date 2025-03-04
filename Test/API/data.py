@@ -13,7 +13,8 @@ import pandas as pd
 from bs4 import BeautifulSoup as bs
 from unidecode import unidecode
 from datetime import datetime, timedelta
-from passlib.context import CryptContext
+import passlib
+import bcrypt
 from pydantic import BaseModel, EmailStr, constr
 import ssl
 
@@ -21,7 +22,7 @@ app = FastAPI()
 
 MAPS_API = os.getenv("MAPS_API")
 MONGO_URI = os.getenv("MONGO_URI")
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = str(os.getenv("SECRET_KEY"))
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
