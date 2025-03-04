@@ -48,9 +48,6 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: constr(min_length=6)
 
-    class Config:
-        orm_mode = True
-
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
@@ -71,13 +68,12 @@ def hash_password(password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
-# Função para criar o usuário
-def create_user(user: UserCreate, collection):
+def create_user(user: UserCreate):
     if collection.find_one({"email": user.email}):
         raise ValueError("Email já cadastrado")
 
     hashed_password = hash_password(user.password)
-    created_at = datetime.utcnow()  # Objeto datetime
+    created_at = datetime.utcnow()
 
     new_user = {
         "name": user.name,
@@ -91,7 +87,7 @@ def create_user(user: UserCreate, collection):
     return {
         "name": user.name,
         "email": user.email,
-        "created_at": created_at.isoformat()  # Convertendo datetime para string
+        "created_at": created_at.isoformat()
     }
 
 
@@ -215,13 +211,8 @@ def webScrapping():
 
 @app.post("/api/register")
 async def register(user: UserCreate):
-    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
-
-    db = client['litoral_puro_rj']
-    collection = db['usuario']
-
     try:
-        created_user = create_user(user, collection)
+        created_user = create_user(user)
         return JSONResponse(
             content={"message": "Usuário criado com sucesso!", "user": created_user},
             status_code=status.HTTP_201_CREATED
