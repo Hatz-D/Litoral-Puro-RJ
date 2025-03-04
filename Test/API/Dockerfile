@@ -6,7 +6,7 @@ RUN apt-get install pip git python3.12-venv -y
 
 RUN python3 -m venv my-venv
 
-RUN my-venv/bin/pip install fastapi[standard] passlib bcrypt pydantic requests pymongo beautifulsoup4 pandas unidecode uvicorn "python-jose[cryptography]"
+RUN my-venv/bin/pip install fastapi[standard] 'bcrypt==4.0.1' 'passlib[bcrypt]' pydantic requests pymongo beautifulsoup4 pandas unidecode uvicorn "python-jose[cryptography]"
 
 RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
 
