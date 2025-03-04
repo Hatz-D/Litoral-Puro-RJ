@@ -133,25 +133,13 @@ function submitSelections() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    fetchData();
-
-    const input = document.getElementById("myInput");
-    input.addEventListener("keyup", tableFilter);
-
-    const submitBtn = document.getElementById("submit-btn");
-    submitBtn.addEventListener("click", submitSelections);
-});
-
 function tableFilter() {
-    // Declare variables
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
     table = document.getElementById("myTable");
     tr = table.getElementsByTagName("tr");
 
-    // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[0];
         if (td) {
@@ -164,3 +152,15 @@ function tableFilter() {
         }
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetchData();
+
+    // Adicionando o manipulador de eventos para o filtro
+    const input = document.getElementById("myInput");
+    input.addEventListener("keyup", tableFilter);
+
+    // Adicionando o manipulador de eventos para o botão de envio
+    const submitBtn = document.getElementById("submit-btn");
+    submitBtn.addEventListener("click", submitSelections);
+});
