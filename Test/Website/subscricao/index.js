@@ -103,9 +103,11 @@ function toggleSelection(key, button) {
     if (index > -1) {
         selectedItems.splice(index, 1);
         button.textContent = 'Selecionar';
+        button.classList.remove('selected');  // Remover a classe "selected"
     } else {
         selectedItems.push(key);
         button.textContent = 'Desmarcar';
+        button.classList.add('selected');  // Adicionar a classe "selected"
     }
     document.getElementById('submit-btn').style.display = selectedItems.length > 0 ? 'block' : 'none';
 }
