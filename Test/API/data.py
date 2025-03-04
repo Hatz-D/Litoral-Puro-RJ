@@ -68,7 +68,7 @@ def hash_password(password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
-def create_user(user: UserCreate):
+def create_user(user: UserCreate, collection):
     if collection.find_one({"email": user.email}):
         raise ValueError("Email já cadastrado")
 
@@ -240,6 +240,10 @@ async def register(user: UserCreate):
 
 @app.post("/api/login")
 async def login(user: UserLogin):
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+    db = client['litoral_puro_rj']
+    collection = db['usuario']
+    
     stored_user = collection.find_one({"email": user.email})
     
     if not stored_user or not pwd_context.verify(user.password, stored_user["hashed_password"]):
@@ -252,6 +256,10 @@ async def login(user: UserLogin):
 
 @app.get("/api/me")
 async def get_user_info(token: str = Depends(oauth2_scheme)):
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+    db = client['litoral_puro_rj']
+    collection = db['usuario']
+    
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email = payload.get("sub")
