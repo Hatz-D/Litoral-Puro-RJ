@@ -135,6 +135,12 @@ function submitSelections() {
 
 document.addEventListener('DOMContentLoaded', function() {
     fetchData();
+
+    const input = document.getElementById("myInput");
+    input.addEventListener("keyup", tableFilter);
+
+    const submitBtn = document.getElementById("submit-btn");
+    submitBtn.addEventListener("click", submitSelections);
 });
 
 function tableFilter() {
