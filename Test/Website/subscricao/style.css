@@ -176,3 +176,65 @@ footer {
       margin-top: 10px;
   }
 }
+
+/* Estilo básico para a tabela */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.data-table th, .data-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.data-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+/* Estilos para os botões de selecionar */
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Botões de selecionar */
+button {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Estado normal para o botão "Selecionar" (não selecionado) */
+button {
+    background-color: #28a745;  /* Verde */
+    color: white;
+}
+
+/* Estado de botão "Desmarcar" (selecionado) */
+button.selected {
+    background-color: #dc3545;  /* Vermelho */
+    color: white;
+}
+
+/* Estilos para o botão de envio */
+#submit-btn {
+    padding: 12px 24px;
+    background-color: #007bff;  /* Azul */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: none;
+}
+
+/* Estilo de hover para o botão de envio */
+#submit-btn:hover {
+    background-color: #0056b3;  /* Azul mais escuro */
+}
