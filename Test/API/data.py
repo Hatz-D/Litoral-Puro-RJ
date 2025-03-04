@@ -97,6 +97,8 @@ def verify_user_credentials(email: str, password: str, collection):
     if user is None:
         return None
 
+    hashed_password = hash_password(password)
+    
     if verify_password(hashed_password, user["hashed_password"]):  
         return {"name": user["name"], "email": user["email"]}
     
