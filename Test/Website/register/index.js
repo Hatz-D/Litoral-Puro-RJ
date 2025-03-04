@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response.ok) {
                 sessionStorage.setItem("access_token", data.access_token);
                 alert("Registro realizado com sucesso!");
-                window.location.href = "/dashboard";
+                window.location.href = "../index.html";
             } else {
                 alert("Erro: " + (data.message || "Falha no registro"));
             }
