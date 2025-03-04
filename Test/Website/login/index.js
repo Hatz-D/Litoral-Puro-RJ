@@ -41,8 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(res => res.json())
             .then(data => {
-                if (data.name) {
-                    userNameElement.textContent = `Bem-vindo, ${data.name}!`;
+                if (data.name && data.user.name) {
+                    userNameElement.textContent = `Bem-vindo, ${data.user.name}!`;
                     authButton.textContent = "Logout";
                     authButton.onclick = () => {
                         sessionStorage.removeItem("authToken");
