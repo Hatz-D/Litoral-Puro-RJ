@@ -211,23 +211,31 @@ def webScrapping():
 
 @app.post("/api/register")
 async def register(user: UserCreate):
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+    db = client['litoral_puro_rj']
+    collection = db['usuario']
+
     try:
-        created_user = create_user(user)
+        created_user = create_user(user, collection)
+
+        # Gerar token JWT
+        token_data = {"sub": created_user["email"]}
+        access_token = create_access_token(token_data, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+
         return JSONResponse(
-            content={"message": "Usuário criado com sucesso!", "user": created_user},
+            content={
+                "message": "Usuário criado com sucesso!",
+                "user": created_user,
+                "access_token": access_token,
+                "token_type": "bearer"
+            },
             status_code=status.HTTP_201_CREATED
         )
     except ValueError as ve:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(ve)
-        )
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(ve))
     except Exception as e:
         print(e)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Erro no servidor. Tente novamente mais tarde."
-        )
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro no servidor.")
 
 
 @app.post("/api/login")
