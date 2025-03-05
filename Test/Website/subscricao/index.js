@@ -85,6 +85,7 @@ function displayData(data) {
             const selectCell = document.createElement('td');
             const selectButton = document.createElement('button');
             selectButton.textContent = 'Selecionar';
+            selectButton.id = key;
             selectButton.onclick = () => toggleSelection(key, selectButton);
             selectCell.appendChild(selectButton);
             row.appendChild(selectCell);
