@@ -14,11 +14,14 @@ from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr, constr
 import ssl
 from typing import List
+import smtplib                                                                                                                 
+from email.mime.text import MIMEText 
 
 app = FastAPI()
 
 MAPS_API = os.getenv("MAPS_API")
 MONGO_URI = os.getenv("MONGO_URI")
+MAIL_SECRET = os.getenv("MAIL_SECRET")
 
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 ssl_context.load_cert_chain('./fullchain.pem', keyfile='./privkey.pem')
@@ -175,6 +178,24 @@ def webScrapping():
     collection = db['praia']  # Coleção principal
     historico = db['praia_historico']  # Coleção para o histórico
 
+    alteradas = []
+
+    for index in novos_dados['Praia']:
+        atual = collection.find_one({"Id": index})
+        if(atual["Qualidade"] != novos_dados["Qualidade"][index]):
+            documento = {
+                "Id": index,
+                "Praia": novos_dados['Praia'][index],
+                "Qualidade": novos_dados['Qualidade'][index],
+                "Municipio": novos_dados['Municipio'][index],
+                "Local": novos_dados['Local'][index],
+                "Data": novos_dados['Data'][index]
+            }
+
+            alteradas.append(documento)
+
+    smtpEmail(alteradas)
+
     # Mover os dados atuais para o histórico com timestamp
     try:
         dados_atual = list(collection.find())
@@ -203,6 +224,53 @@ def webScrapping():
     except Exception as e:
         print("Erro:", e)
         return "Erro!"
+
+
+def smtpEmail(alteradas):
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+    db = client['litoral_puro_rj'] 
+    collection_subs = db['subscricao']
+
+    subscricoes = list(collection_subs.find())
+
+    for subscricao in subscricoes:
+        itens_alterados = []
+        for index in subscricao['selectedItems']:
+            for praia in alteradas:
+                if(praia['Id'] == index):
+                    documento_formatado = {
+                        "Id": index,
+                        "Praia": praia['Praia'],
+                        "Qualidade": praia['Qualidade'],
+                        "Municipio": praia['Municipio'],
+                        "Local": praia['Local'],
+                        "Data": praia['Data']
+                    }
+
+                    itens_alterados.append(documento_formatado)
+
+        if itens_alterados:
+            sendEmail(itens_alterados, subscricao['email'])
+
+
+def sendEmail(itens_alterados, email):
+    subject = "Alteração no Status de Praias"
+    sender = "litoralpurorj@gmail.com"
+    body = "Olá, boa tarde!\n\nO status de balneabilidade das seguintes praias mudaram:\n\n"
+
+    for item in itens_alterados:
+        body = body + "•" + item["Praia"] + ", " + item["Municipio"] + ", " + item["Local"] + ": balneabilidade " + item["Qualidade"].lower() + ". Data de atualização: " + item["Data"] + ".\n"
+
+    body = body + "\nObrigado por continuar utilizando o Litoral Puro RJ, a sua melhor consulta de balneabilidade para o Rio de Janeiro!"
+
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = email
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
+        smtp_server.login(sender, MAIL_SECRET)
+        smtp_server.sendmail(sender, email, msg.as_string())
 
 
 @app.post("/api/register")
