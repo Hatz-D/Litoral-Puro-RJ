@@ -156,29 +156,25 @@ function tableFilter() {
     }
 }
 
-function fetchSelections(userEmail) {
-    fetch(`https://dioguitoposeidon.com.br:8000/api/get-selections/${userEmail}`)
+function fetchSelections(email) {
+    fetch(`/api/get-selections/${email}`)
         .then(response => response.json())
         .then(data => {
-            if (data && data.selectedItems) {
-                // Atualizar o array de seleções com os itens recuperados
-                selectedItems = data.selectedItems;
-
-                // Marcar as seleções no frontend
-                const buttons = document.querySelectorAll('button');
-                buttons.forEach(button => {
-                    if (selectedItems.includes(button.id)) {
-                        button.textContent = 'Desmarcar';
-                        button.classList.add('selected');
-                    }
-                });
-                // Exibir o botão de envio caso haja seleções
-                document.getElementById('submit-btn').style.display = selectedItems.length > 0 ? 'block' : 'none';
+            if (data && data.selections) {
+                updateUIWithSelections(data.selections);
             }
         })
-        .catch(error => {
-            console.error('Erro ao buscar as seleções:', error);
-        });
+        .catch(error => console.error("Erro ao buscar seleções:", error));
+}
+
+function updateUIWithSelections(selections) {
+    selections.forEach(selectionId => {
+        const button = document.querySelector(`button[data-id="${selectionId}"]`);
+        if (button) {
+            button.classList.add("selected"); // Adiciona classe de estilo
+            button.textContent = "Selecionado"; // Atualiza o texto do botão
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -196,4 +192,19 @@ document.addEventListener('DOMContentLoaded', function() {
     if (userEmail) {
         fetchSelections(userEmail);  // Busca as seleções anteriores
     }
+});
+
+document.querySelectorAll(".select-button").forEach(button => {
+    button.addEventListener("click", function () {
+        const itemId = this.getAttribute("data-id");
+        this.classList.toggle("selected");
+
+        if (this.classList.contains("selected")) {
+            this.textContent = "Selecionado";
+            saveSelection(itemId);
+        } else {
+            this.textContent = "Selecionar";
+            removeSelection(itemId);
+        }
+    });
 });
