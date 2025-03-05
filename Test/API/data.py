@@ -271,14 +271,10 @@ async def save_selections(request: SelectionRequest):
 
 @app.get("/api/get-selections/{email}")
 async def get_selections(email: str):
-    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+    selections = collection.find_one({"email": email})
 
-    db = client['litoral_puro_rj']
-    collection = db['subscricao']
-    
-    user_selections = collection.find_one({"email": email})
-    
-    if user_selections:
-        return user_selections
+    if selections:
+        selections["_id"] = str(selections["_id"])  # ✅ Converte o ObjectId para string
+        return selections
     else:
-        raise HTTPException(status_code=404, detail="Seleções não encontradas.")
+        return {"message": "Nenhuma seleção encontrada"}
