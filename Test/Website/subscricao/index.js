@@ -166,8 +166,8 @@ function fetchSelections(email) {
     fetch(`https://dioguitoposeidon.com.br:8000/api/get-selections/${email}`)
         .then(response => response.json())
         .then(data => {
-            if (data && data.selections) {
-                updateUIWithSelections(data.selections);
+            if (data && data.selectedItems) {
+                updateUIWithSelections(data.selectedItems);
             }
         })
         .catch(error => console.error("Erro ao buscar seleções:", error));
