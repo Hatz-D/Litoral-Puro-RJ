@@ -171,6 +171,12 @@ def webScrapping():
 
     novos_dados = json.loads(df.to_json())
 
+    if(novos_dados['Praia']['0'] != "Arpoador" or novos_dados['Praia']['266'] != 'Cepilho'):
+         raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Houve uma mudança nos índices das praias!"
+        )
+
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
     # Preparar as coleções MongoDB
