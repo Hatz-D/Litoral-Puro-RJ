@@ -174,12 +174,10 @@ function fetchSelections(email) {
 }
 
 function updateUIWithSelections(selections) {
-    console.log("Entrou!")
     selections.forEach(selectionId => {
         const button = document.querySelector(`button[data-id="${selectionId}"]`);
         if (button) {
-            button.classList.add("selected"); // Aplica estilo de seleção
-            button.textContent = "Desmarcar"; // Atualiza texto do botão
+            button.click();
         }
     });
 }
