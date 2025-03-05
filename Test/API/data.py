@@ -158,6 +158,9 @@ def webScrapping():
         locais = section.find_all(class_="location")
         municipio = unidecode(section.find("h1").get_text())
         lastupdate = unidecode(section.find(class_="last-update").get_text())
+        lastupdate = lastupdate.replace("Atualizado em ", "")
+        if(lastupdate == ""):
+            lastupdate = "n/a"
 
         for i in range(0, len(praias)):
             new_line = {"Praia":unidecode(praias[i].get_text(strip=True)), "Local":unidecode(locais[i].get_text(strip=True)), "Qualidade":unidecode(status[i].get_text(strip=True)), "Municipio":municipio, "Data":lastupdate}
