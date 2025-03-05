@@ -8,6 +8,7 @@ if (userName) {
     authButton.textContent = "Logout";
     authButton.onclick = () => {
         localStorage.removeItem("userName");
+        localStorage.removeItem("userEmail");
         userNameElement.textContent = '';
         authButton.textContent = "Registrar/Login";
         alert("Você foi deslogado com sucesso.");
