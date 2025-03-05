@@ -28,9 +28,14 @@ function fetchData() {
     .then(response => response.json())
     .then(data => {
         displayData(data);
+
+        const userEmail = localStorage.getItem("userEmail");
+        if (userEmail) {
+            fetchSelections(userEmail);
+        }
     })
     .catch(error => {
-        console.error('Erro ao buscar os dados!:', error);
+        console.error('Erro ao buscar os dados:', error);
     });
 }
 
@@ -86,6 +91,7 @@ function displayData(data) {
             const selectButton = document.createElement('button');
             selectButton.textContent = 'Selecionar';
             selectButton.id = key;
+            selectButton.setAttribute("data-id", key);
             selectButton.onclick = () => toggleSelection(key, selectButton);
             selectCell.appendChild(selectButton);
             row.appendChild(selectCell);
@@ -171,8 +177,8 @@ function updateUIWithSelections(selections) {
     selections.forEach(selectionId => {
         const button = document.querySelector(`button[data-id="${selectionId}"]`);
         if (button) {
-            button.classList.add("selected"); // Adiciona classe de estilo
-            button.textContent = "Selecionado"; // Atualiza o texto do botão
+            button.classList.add("selected"); // Aplica estilo de seleção
+            button.textContent = "Desmarcar"; // Atualiza texto do botão
         }
     });
 }
