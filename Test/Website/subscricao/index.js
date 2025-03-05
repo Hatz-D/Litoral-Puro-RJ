@@ -155,6 +155,31 @@ function tableFilter() {
     }
 }
 
+function fetchSelections(userEmail) {
+    fetch(`https://dioguitoposeidon.com.br:8000/api/get-selections/${userEmail}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.selectedItems) {
+                // Atualizar o array de seleções com os itens recuperados
+                selectedItems = data.selectedItems;
+
+                // Marcar as seleções no frontend
+                const buttons = document.querySelectorAll('button');
+                buttons.forEach(button => {
+                    if (selectedItems.includes(button.id)) {
+                        button.textContent = 'Desmarcar';
+                        button.classList.add('selected');
+                    }
+                });
+                // Exibir o botão de envio caso haja seleções
+                document.getElementById('submit-btn').style.display = selectedItems.length > 0 ? 'block' : 'none';
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao buscar as seleções:', error);
+        });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     fetchData();
 
@@ -165,4 +190,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Adicionando o manipulador de eventos para o botão de envio
     const submitBtn = document.getElementById("submit-btn");
     submitBtn.addEventListener("click", submitSelections);
+
+    const userEmail = localStorage.getItem("userEmail");
+    if (userEmail) {
+        fetchSelections(userEmail);  // Busca as seleções anteriores
+    }
 });
