@@ -271,6 +271,11 @@ async def save_selections(request: SelectionRequest):
 
 @app.get("/api/get-selections/{email}")
 async def get_selections(email: str):
+    client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
+
+    db = client['litoral_puro_rj']
+    collection = db['subscricao']
+    
     selections = collection.find_one({"email": email})
 
     if selections:
