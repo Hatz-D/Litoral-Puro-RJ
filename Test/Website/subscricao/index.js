@@ -157,7 +157,7 @@ function tableFilter() {
 }
 
 function fetchSelections(email) {
-    fetch(`/api/get-selections/${email}`)
+    fetch(`https://dioguitoposeidon.com.br:8000/api/get-selections/${email}`)
         .then(response => response.json())
         .then(data => {
             if (data && data.selections) {
