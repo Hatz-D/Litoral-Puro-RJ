@@ -1,3 +1,34 @@
+// Verifica se há um nome de usuário armazenado no localStorage
+const userName = localStorage.getItem("userName");
+
+const userNameElement = document.getElementById("user-name");
+const authButton = document.getElementById("auth-button");
+
+if (userName) {
+// Se o usuário estiver logado, mostra o nome e o botão de logout
+userNameElement.textContent = `Bem-vindo, ${userName}!`;
+authButton.textContent = "Logout";
+authButton.onclick = () => {
+  localStorage.removeItem("userName");
+  localStorage.removeItem("userEmail");
+
+  // Atualiza a interface para refletir que o usuário deslogou
+  userNameElement.textContent = '';
+  authButton.textContent = "Registrar/Login";
+
+  // Não redireciona para nenhuma página após o logout
+  alert("Você foi deslogado com sucesso.");
+  window.location.href = "index.html";
+};
+} else {
+  // Se o usuário não estiver logado, mostra o botão de login
+  userNameElement.textContent = '';
+  authButton.textContent = "Registrar/Login";
+  authButton.onclick = () => {
+  window.location.href = "/login/index.html"; // Redireciona para a tela de login
+  };
+}
+
 async function loadGoogleMaps() {
   const response = await fetch('https://dioguitoposeidon.com.br:8000/api/map');
   const data = await response.json();
