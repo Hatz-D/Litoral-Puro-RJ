@@ -193,11 +193,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Adicionando o manipulador de eventos para o botão de envio
     const submitBtn = document.getElementById("submit-btn");
     submitBtn.addEventListener("click", submitSelections);
-
-    const userEmail = localStorage.getItem("userEmail");
-    if (userEmail) {
-        fetchSelections(userEmail);  // Busca as seleções anteriores
-    }
 });
 
 document.querySelectorAll(".select-button").forEach(button => {
