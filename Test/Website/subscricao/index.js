@@ -174,6 +174,7 @@ function fetchSelections(email) {
 }
 
 function updateUIWithSelections(selections) {
+    console.log("Entrou!")
     selections.forEach(selectionId => {
         const button = document.querySelector(`button[data-id="${selectionId}"]`);
         if (button) {
