@@ -189,6 +189,7 @@ def webScrapping():
         # Inserir os novos dados na coleção 'praia'
         for index in novos_dados['Praia']:
             documento = {
+                "Id": index,
                 "Praia": novos_dados['Praia'][index],
                 "Qualidade": novos_dados['Qualidade'][index],
                 "Municipio": novos_dados['Municipio'][index],
