@@ -67,6 +67,7 @@
             authButton.onclick = () => {
                 // Remove o nome do usuário do localStorage
                 localStorage.removeItem("userName");
+                localStorage.removeItem("userEmail");
 
                 // Atualiza a interface para refletir que o usuário deslogou
                 userNameElement.textContent = '';
