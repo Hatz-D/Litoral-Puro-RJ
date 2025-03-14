@@ -5,6 +5,9 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from datetime import datetime
 from passlib.context import CryptContext
+from typing import List
+import smtplib                                                                                                                 
+from email.mime.text import MIMEText 
 import ssl
 import json
 import os
