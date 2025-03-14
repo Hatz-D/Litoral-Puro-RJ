@@ -8,6 +8,7 @@ from passlib.context import CryptContext
 from typing import List
 import smtplib                                                                                                                 
 from email.mime.text import MIMEText 
+from pydantic import BaseModel, EmailStr, constr
 import ssl
 import json
 import os
@@ -34,13 +35,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Vai ser API
-def smtpEmail(alteradas):
+
+class SelectionRequest(BaseModel):
+    email: str
+    selectedItems: List[str]
+
+
+class PraiasAlteradas(BaseModel):
+    lista: List[str]
+    
+
+@app.post("/api/query-subscriptions")
+async def smtpEmail(request: PraiasAlteradas):
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
     db = client['litoral_puro_rj'] 
     collection_subs = db['subscricao']
 
     subscricoes = list(collection_subs.find())
+
+    alteradas = request.lista
 
     for subscricao in subscricoes:
         itens_alterados = []
