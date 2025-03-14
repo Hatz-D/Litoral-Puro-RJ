@@ -7,7 +7,7 @@
 html, body {
   height: 100%;
   font-family: Arial, sans-serif;
-  background-color: #e8e8fc;
+  background-color: #0000;
 }
 
 body {
@@ -20,7 +20,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #a393eb;
+  background-color: #333A45;
 }
 
 .logo img {
@@ -68,7 +68,7 @@ main {
 }
 
 .balneabilidade-stats {
-  background-color: #cbc3f0;
+  background-color: #9EB4D3;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -114,10 +114,11 @@ main {
 footer {
   text-align: center;
   padding: 10px;
-  background-color: #a393eb;
+  background-color: #333A45;
   position: relative;
   bottom: 0;
   width: 100%;
+  color: #0000
 }
 
 #map {
