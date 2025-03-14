@@ -6,8 +6,8 @@
   
   html, body {
     height: 100%;
-    font-family: Arial, sans-serif;
-    background-color: #e8e8fc;
+    font-family: Verdana, sans-serif;
+    background-color: #0000;
     justify-content: center;
     align-items: center;
   }
@@ -23,7 +23,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #a393eb;
+    background-color: #333A45;
     position: fixed; /* Fixa o header no topo */
     top: 0;
     width: 100%; /* Garante que o header ocupe toda a largura */
@@ -76,11 +76,12 @@
   footer {
     text-align: center;
     padding: 10px;
-    background-color: #a393eb;
+    background-color: #333A45;
     width: 100%;
     position: relative;
     bottom: 0;
     flex-shrink: 0; /* Garante que o footer não encolha */
+    color: #FFFFFF;
   }
   
   /* Melhorias adicionais no layout para garantir responsividade */
@@ -181,7 +182,7 @@
 #user-name {
     margin-right: 10px;
     font-size: 18px;
-    color: #333;
+    color: #FFFFFF;
 }
 
 #auth-button {
