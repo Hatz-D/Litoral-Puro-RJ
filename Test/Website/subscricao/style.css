@@ -134,6 +134,7 @@ footer {
   position: relative;
   bottom: 0;
   flex-shrink: 0; /* Garante que o footer não encolha */
+  color: #FFFFFF;
 }
 
 #user-info {
@@ -144,7 +145,7 @@ footer {
 #user-name {
     margin-right: 10px;
     font-size: 18px;
-    color: #333;
+    color: #FFFFFF;
 }
 
 #auth-button {
