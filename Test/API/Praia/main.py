@@ -8,6 +8,7 @@ from passlib.context import CryptContext
 import pandas as pd
 from bs4 import BeautifulSoup as bs
 from unidecode import unidecode
+import requests
 import ssl
 import json
 import os
@@ -137,10 +138,15 @@ def webScrapping():
 
             alteradas.append(documento)
 
+    data = {
+        "lista": alteradas
+    }
+    
+    headers = {
+        "Content-Type": "application/json",  # Informando que estamos enviando JSON
+    }
 
-
-    # Chamar API de função de smtpEmail(alteradas)
-    # smtpEmail(alteradas)
+    response = requests.post("https://dioguitoposeidon.com.br:8080/api/query-subscriptions", json=data, headers=headers)
 
     # Mover os dados atuais para o histórico com timestamp
     try:
