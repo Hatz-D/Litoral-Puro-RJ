@@ -6,8 +6,8 @@
 
 html, body {
   height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #e8e8fc;
+  font-family: Verdana, sans-serif;
+  background-color: #0000;
 }
 
 body {
@@ -21,7 +21,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #a393eb;
+  background-color: #333A45;
   position: fixed; /* Fixa o header no topo */
   top: 0;
   width: 100%; /* Garante que o header ocupe toda a largura */
@@ -88,7 +88,7 @@ nav button:hover {
 
 #myInput:focus {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada no foco */
-  border-color: #a393eb; /* Muda a cor da borda no foco */
+  border-color: #333A45; /* Muda a cor da borda no foco */
 }
 
 /* Ajustando a tabela para que não ocupe toda a largura da página */
@@ -110,7 +110,7 @@ nav button:hover {
 }
 
 #myTable th {
-  background-color: #a393eb; /* Fundo da linha do cabeçalho */
+  background-color: #333A45; /* Fundo da linha do cabeçalho */
   color: #fff; /* Cor do texto do cabeçalho */
   font-weight: bold; /* Negrito no cabeçalho */
 }
@@ -129,11 +129,12 @@ nav button:hover {
 footer {
   text-align: center;
   padding: 10px;
-  background-color: #a393eb;
+  background-color: #333A45;
   width: 100%;
   position: relative;
   bottom: 0;
   flex-shrink: 0; /* Garante que o footer não encolha */
+  color: #FFFFFF;
 }
 
 #user-info {
@@ -144,7 +145,7 @@ footer {
 #user-name {
     margin-right: 10px;
     font-size: 18px;
-    color: #333;
+    color: #FFFFFF;
 }
 
 #auth-button {
