@@ -5,6 +5,9 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from datetime import datetime
 from passlib.context import CryptContext
+import pandas as pd
+from bs4 import BeautifulSoup as bs
+from unidecode import unidecode
 import ssl
 import json
 import os
