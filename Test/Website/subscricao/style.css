@@ -6,8 +6,8 @@
 
 html, body {
   height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #e8e8fc;
+  font-family: Verdana, sans-serif;
+  background-color: #0000;
 }
 
 body {
@@ -21,7 +21,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #a393eb;
+  background-color: #333A45;
   position: fixed; /* Fixa o header no topo */
   top: 0;
   width: 100%; /* Garante que o header ocupe toda a largura */
@@ -110,7 +110,7 @@ nav button:hover {
 }
 
 #myTable th {
-  background-color: #a393eb; /* Fundo da linha do cabeçalho */
+  background-color: #333A45; /* Fundo da linha do cabeçalho */
   color: #fff; /* Cor do texto do cabeçalho */
   font-weight: bold; /* Negrito no cabeçalho */
 }
