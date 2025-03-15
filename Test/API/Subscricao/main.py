@@ -78,7 +78,7 @@ async def smtpEmail(request: PraiasAlteradas):
                             "Data": praia.Data
                         }
 
-                    itens_alterados.append(documento_formatado)
+                        itens_alterados.append(documento_formatado)
 
         if itens_alterados:
             sendEmail(itens_alterados, subscricao['email'])
