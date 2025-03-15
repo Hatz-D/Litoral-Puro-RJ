@@ -12,7 +12,6 @@ import os
 
 app = FastAPI()
 
-MAPS_API = os.getenv("MAPS_API")
 MONGO_URI = os.getenv("MONGO_URI")
 MAIL_SECRET = os.getenv("MAIL_SECRET")
 
