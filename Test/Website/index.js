@@ -65,7 +65,6 @@ async function loadMarkers(map, data) {
   const coords = await responseCoord.json();
   const cleanedString = coords.replace(/^"|"$/g, '').replace(/\\"/g, '"');
   const coordenadas = JSON.parse(cleanedString);
-  console.log(typeof coordenadas)
 
   coordenadas.forEach((coordenada, index) => {
     const latitude = coordenada[0];
@@ -125,11 +124,47 @@ async function loadMarkers(map, data) {
   });
 }
 
+function dashboard(data) {
+    if (typeof data === 'string') {
+    try {
+        data = JSON.parse(data);
+    } catch (e) {
+        dataContainer.textContent = 'Erro ao processar os dados: formato inválido de JSON.';
+        return;
+    }
+}
+
+    const impropriaCont = 0;
+    const propriaCont = 0;
+    const naCont = 0;
+
+    data.forEach((index) => {
+        const qualidade = data.Qualidade[index];
+
+        if(qualidade.trim() === 'Propria') {
+            propriaCont += 1;
+        }
+
+        else if(qualidade.trim() === 'Impropria') {
+            impropriaCont += 1;
+        }
+
+        else {
+            naCont += 1;
+        }
+    });
+
+    console.log(propriaCont);
+    console.log(impropriaCont);
+    console.log(naCont);
+}
+
 function fetchData(map) {
   fetch('https://dioguitoposeidon.com.br:8001/api/data')
   .then(response => response.json())
   .then(data => {
       loadMarkers(map, data);
+      dashboard(data);
   })
   .catch(error => {
       console.error('Erro ao buscar os dados!:', error);
