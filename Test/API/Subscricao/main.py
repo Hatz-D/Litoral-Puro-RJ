@@ -6,8 +6,8 @@ from pymongo.server_api import ServerApi
 from datetime import datetime
 from passlib.context import CryptContext
 from typing import List
-import smtplib                                                                                                                 
-from email.mime.text import MIMEText 
+import smtplib
+from email.mime.text import MIMEText
 from pydantic import BaseModel, EmailStr, constr
 import ssl
 import json
@@ -15,7 +15,7 @@ import os
 
 app = FastAPI()
 
-MAPS_API = os.getenv("MAPS_API")
+MAIL_SECRET = os.getenv("MAIL_SECRET")
 MONGO_URI = os.getenv("MONGO_URI")
 
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
@@ -41,8 +41,17 @@ class SelectionRequest(BaseModel):
     selectedItems: List[str]
 
 
+class Praia(BaseModel):
+    Id: str
+    Praia: str
+    Qualidade: str
+    Municipio: str
+    Local: str
+    Data: str
+
+
 class PraiasAlteradas(BaseModel):
-    lista: List[str]
+    lista: List[Praia]
     
 
 @app.post("/api/query-subscriptions")
@@ -59,15 +68,15 @@ async def smtpEmail(request: PraiasAlteradas):
         itens_alterados = []
         for index in subscricao['selectedItems']:
             for praia in alteradas:
-                if(praia['Id'] == index):
-                    documento_formatado = {
-                        "Id": index,
-                        "Praia": praia['Praia'],
-                        "Qualidade": praia['Qualidade'],
-                        "Municipio": praia['Municipio'],
-                        "Local": praia['Local'],
-                        "Data": praia['Data']
-                    }
+                if(praia.Id == index):
+                        documento_formatado = {
+                            "Id": index,
+                            "Praia": praia.Praia,
+                            "Qualidade": praia.Qualidade,
+                            "Municipio": praia.Municipio,
+                            "Local": praia.Local,
+                            "Data": praia.Data
+                        }
 
                     itens_alterados.append(documento_formatado)
 
