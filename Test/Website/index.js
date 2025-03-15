@@ -61,7 +61,7 @@ async function loadMarkers(map, data) {
     }
 }
 
-  const responseCoord = await fetch('https://dioguitoposeidon.com.br:8000/api/coordinates');
+  const responseCoord = await fetch('https://dioguitoposeidon.com.br:8001/api/coordinates');
   const coords = await responseCoord.json();
   const cleanedString = coords.replace(/^"|"$/g, '').replace(/\\"/g, '"');
   const coordenadas = JSON.parse(cleanedString);
@@ -126,7 +126,7 @@ async function loadMarkers(map, data) {
 }
 
 function fetchData(map) {
-  fetch('https://dioguitoposeidon.com.br:8000/api/data')
+  fetch('https://dioguitoposeidon.com.br:8001/api/data')
   .then(response => response.json())
   .then(data => {
       loadMarkers(map, data);
