@@ -25,7 +25,7 @@ if (userName) {
 let selectedItems = [];
 
 function fetchData() {
-    fetch('https://dioguitoposeidon.com.br:8000/api/data')
+    fetch('https://dioguitoposeidon.com.br:8001/api/data')
     .then(response => response.json())
     .then(data => {
         displayData(data);
@@ -127,7 +127,7 @@ function submitSelections() {
         return;
     }
 
-    fetch('https://dioguitoposeidon.com.br:8000/api/save-selections', {
+    fetch('https://dioguitoposeidon.com.br:8002/api/save-selections', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -164,7 +164,7 @@ function tableFilter() {
 }
 
 function fetchSelections(email) {
-    fetch(`https://dioguitoposeidon.com.br:8000/api/get-selections/${email}`)
+    fetch(`https://dioguitoposeidon.com.br:8002/api/get-selections/${email}`)
         .then(response => response.json())
         .then(data => {
             if (data && data.selectedItems) {
