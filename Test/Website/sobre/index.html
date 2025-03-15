@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="./index.js"></script>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <a href="/index.html"><img src="../logo.png" alt="Logo" width="100"></a>
+    </div>
+    <nav>
+        <button onclick="window.location.href='../index.html'">Mapa</button>
+        <button onclick="window.location.href='../lista/index.html'">Lista de Praias</button>
+        <button onclick="window.location.href='../subscricao/index.html'">Subscrições</button>
+        <button onclick="window.location.href='./index.html'">Sobre</button>
+    </nav>
+    <div class="auth-buttons">
+        <!-- Exibe o nome do usuário e o botão de logout, dependendo do estado de autenticação -->
+        <div id="user-info">
+            <span id="user-name"></span>
+            <button id="auth-button"></button>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="about-container">
+        <h2>Sobre</h2>
+        <p>TODO text</p>
+    </div>
+</main>
+
+<footer>
+    <p>Litoral Puro - 2024</p>
+</footer>
+</body>
+</html>
