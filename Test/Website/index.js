@@ -23,7 +23,7 @@ if (userName) {
 }
 
 async function loadGoogleMaps() {
-  const response = await fetch('https://dioguitoposeidon.com.br:8000/api/map');
+  const response = await fetch('https://dioguitoposeidon.com.br:8001/api/map');
   const data = await response.json();
 
   if (!response.ok) {
