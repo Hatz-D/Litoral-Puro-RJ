@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function fetchData() {
-    fetch('https://dioguitoposeidon.com.br:8000/api/data')
+    fetch('https://dioguitoposeidon.com.br:8001/api/data')
     .then(response => response.json())
     .then(data => {
         displayData(data);
