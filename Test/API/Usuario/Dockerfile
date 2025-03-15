@@ -10,8 +10,8 @@ RUN my-venv/bin/pip install fastapi[standard] passlib[bcrypt] pydantic requests 
 
 RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
 
-COPY ../privkey.pem ./privkey.pem
-COPY ../fullchain.pem ./fullchain.pem
+COPY ./privkey.pem ./privkey.pem
+COPY ./fullchain.pem ./fullchain.pem
 
 RUN cp ./Litoral-Puro-RJ/Test/API/Usuario/main.py ./main.py
 
