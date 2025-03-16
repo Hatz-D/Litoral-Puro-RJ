@@ -158,9 +158,39 @@ function dashboard(data) {
         }
     });
 
-    console.log('Própria:', propriaCont);
-    console.log('Imprópria:', impropriaCont);
-    console.log('N/A:', naCont);
+    updateStats(propriaCont, impropriaCont, naCont);
+}
+
+function updateStats(propria, impropria, na) {
+    document.getElementById("propriaCont").textContent = propria;
+    document.getElementById("impropriaCont").textContent = impropria;
+    document.getElementById("naCont").textContent = na;
+
+    const ctx = document.getElementById("balneabilidadeChart").getContext("2d");
+    let propriaCont = 50;  // Esses valores devem ser populados dinamicamente
+    let impropriaCont = 30;
+    let naCont = 20;
+
+    const balneabilidadeChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: ["Própria", "Imprópria", "N/A"],
+            datasets: [{
+                data: [propriaCont, impropriaCont, naCont],
+                backgroundColor: ["#008000", "#EA4335", "#808080"],
+                borderWidth: 1,
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "bottom",
+                },
+            },
+        },
+    });
 }
 
 function fetchData(map) {
