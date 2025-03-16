@@ -162,10 +162,6 @@ function dashboard(data) {
 }
 
 function updateStats(propriaCont, impropriaCont, naCont) {
-    document.getElementById("propriaCont").textContent = propria;
-    document.getElementById("impropriaCont").textContent = impropria;
-    document.getElementById("naCont").textContent = na;
-
     const ctx = document.getElementById("balneabilidadeChart").getContext("2d");
 
     const balneabilidadeChart = new Chart(ctx, {
