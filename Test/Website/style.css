@@ -79,23 +79,6 @@ main {
   margin-bottom: 20px;
 }
 
-.circle-chart {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 10px solid;
-  border-color: green green red red;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f0ff;
-}
-
-.circle-chart p {
-  font-size: 24px;
-  font-weight: bold;
-}
-
 .center-panel {
   flex-grow: 1;
   background-color: #fff;
