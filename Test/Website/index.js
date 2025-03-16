@@ -161,35 +161,35 @@ function dashboard(data) {
     updateStats(propriaCont, impropriaCont, naCont);
 }
 
-let myChart = null;
+function updateStats(propria, impropria, na) {
+    document.getElementById("propriaCont").textContent = propria;
+    document.getElementById("impropriaCont").textContent = impropria;
+    document.getElementById("naCont").textContent = na;
 
-function updateStats(propriaCont, impropriaCont, naCont) {
     const ctx = document.getElementById("balneabilidadeChart").getContext("2d");
+    let propriaCont = 50;  // Esses valores devem ser populados dinamicamente
+    let impropriaCont = 30;
+    let naCont = 20;
 
-    // Se já existe um gráfico, destruí-lo antes de criar outro
-    if (myChart !== null) {
-        myChart.destroy();
-    }
-
-    myChart = new Chart(ctx, {
+    const balneabilidadeChart = new Chart(ctx, {
         type: "doughnut",
         data: {
-            labels: ["Própria", "Imprópria", "Não analisada"],
+            labels: ["Própria", "Imprópria", "N/A"],
             datasets: [{
                 data: [propriaCont, impropriaCont, naCont],
-                backgroundColor: ["green", "red", "gray"]
-            }]
+                backgroundColor: ["#008000", "#EA4335", "#808080"],
+                borderWidth: 1,
+            }],
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false, // Impede o crescimento infinito
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    display: true,
-                    position: "bottom"
-                }
-            }
-        }
+                    position: "bottom",
+                },
+            },
+        },
     });
 }
 
