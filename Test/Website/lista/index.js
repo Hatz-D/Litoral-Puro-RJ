@@ -4,7 +4,7 @@ const userNameElement = document.getElementById("user-name");
 const authButton = document.getElementById("auth-button");
 
 if (userName) {
-    userNameElement.textContent = `Bem-vindo, ${userName}!`;
+    userNameElement.textContent = `Bem-vindo(a), ${userName}!`;
     authButton.textContent = "Logout";
     authButton.onclick = () => {
         localStorage.removeItem("userName");
