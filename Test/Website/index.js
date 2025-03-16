@@ -126,37 +126,41 @@ async function loadMarkers(map, data) {
 
 function dashboard(data) {
     if (typeof data === 'string') {
-    try {
-        data = JSON.parse(data);
-    } catch (e) {
-        dataContainer.textContent = 'Erro ao processar os dados: formato inválido de JSON.';
+        try {
+            data = JSON.parse(data);
+        } catch (e) {
+            console.error('Erro ao processar os dados: formato inválido de JSON.');
+            return;
+        }
+    }
+
+    let impropriaCont = 0;
+    let propriaCont = 0;
+    let naCont = 0;
+
+    if (!data.Qualidade || typeof data.Qualidade !== 'object') {
+        console.error('Erro: Estrutura do JSON inválida ou campo "Qualidade" ausente.');
         return;
     }
-}
 
-    const impropriaCont = 0;
-    const propriaCont = 0;
-    const naCont = 0;
-
-    data.forEach((index) => {
-        const qualidade = data.Qualidade[index];
-
-        if(qualidade.trim() === 'Propria') {
-            propriaCont += 1;
-        }
-
-        else if(qualidade.trim() === 'Impropria') {
-            impropriaCont += 1;
-        }
-
-        else {
-            naCont += 1;
+    Object.values(data.Qualidade).forEach(qualidade => {
+        if (typeof qualidade === 'string') {
+            qualidade = qualidade.trim();
+            if (qualidade === 'Propria') {
+                propriaCont++;
+            } else if (qualidade === 'Impropria') {
+                impropriaCont++;
+            } else {
+                naCont++;
+            }
+        } else {
+            naCont++;
         }
     });
 
-    console.log(propriaCont);
-    console.log(impropriaCont);
-    console.log(naCont);
+    console.log('Própria:', propriaCont);
+    console.log('Imprópria:', impropriaCont);
+    console.log('N/A:', naCont);
 }
 
 function fetchData(map) {
