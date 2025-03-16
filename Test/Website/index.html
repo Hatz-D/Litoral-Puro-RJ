@@ -10,7 +10,7 @@
 <body>
     <header>
         <div class="logo">
-            <a href="/index.html"><img src="../beach.png" alt="Logo" width="100"></a>
+            <a href="/index.html"><img src="../beach.png" alt="Logo"></a>
         </div>
         <nav>
             <button onclick="window.location.href='index.html'">Mapa</button>
@@ -31,8 +31,7 @@
         <div class="left-panel">
             <div class="balneabilidade-stats">
                 <b><p>Estatísticas de Balneabilidade</p></b>
-                <div class="circle-chart">
-                </div>
+                <canvas id="balneabilidadeChart"></canvas>
                 <div class="stats-details">
                     <p style="color: #32CD32;">Própria: <span id="propriaCont">0</span></p>
                     <p style="color: #EA4335;">Imprópria: <span id="impropriaCont">0</span></p>
