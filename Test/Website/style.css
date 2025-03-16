@@ -73,6 +73,7 @@ main {
   border-radius: 10px;
   text-align: center;
   font-size: 20px;
+  height: 230px;
   max-height: 230px;
 }
 
