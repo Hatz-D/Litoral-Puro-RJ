@@ -161,15 +161,12 @@ function dashboard(data) {
     updateStats(propriaCont, impropriaCont, naCont);
 }
 
-function updateStats(propria, impropria, na) {
+function updateStats(propriaCont, impropriaCont, naCont) {
     document.getElementById("propriaCont").textContent = propria;
     document.getElementById("impropriaCont").textContent = impropria;
     document.getElementById("naCont").textContent = na;
 
     const ctx = document.getElementById("balneabilidadeChart").getContext("2d");
-    let propriaCont = 50;  // Esses valores devem ser populados dinamicamente
-    let impropriaCont = 30;
-    let naCont = 20;
 
     const balneabilidadeChart = new Chart(ctx, {
         type: "doughnut",
