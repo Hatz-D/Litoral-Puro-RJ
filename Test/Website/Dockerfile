@@ -1,7 +1,7 @@
 FROM nginx:1.27.4-alpine
 
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install git certbot python3-certbot-nginx -y
+# RUN apk update && apk upgrade -y
+RUN apk install git certbot python3-certbot-nginx -y
 RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
 
 RUN mkdir -p /etc/nginx/html/
