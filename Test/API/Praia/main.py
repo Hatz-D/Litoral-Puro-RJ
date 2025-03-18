@@ -75,7 +75,7 @@ def getMap():
 
 @app.get("/api/coordinates")
 def getCoordinates():
-    with open("/Litoral-Puro-RJ/Test/API/coordinates.json", 'r', encoding='utf-8') as arquivo:
+    with open("coordinates.json", 'r', encoding='utf-8') as arquivo:
         conteudo_json = json.load(arquivo)
         conteudo_string = json.dumps(conteudo_json)
     return conteudo_string
