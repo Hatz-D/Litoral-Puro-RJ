@@ -2,7 +2,7 @@ FROM alpine:3.21.3
 
 # RUN apt update && apt upgrade -y
 
-RUN apt add py3-pip py3-virtualenv && \
+RUN apk add py3-pip py3-virtualenv && \
     python3 -m venv my-venv && \
     my-venv/bin/pip install fastapi[standard] passlib[bcrypt] pydantic requests pymongo uvicorn
     
