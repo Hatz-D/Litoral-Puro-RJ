@@ -13,6 +13,6 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/www/certbot
 
-RUN echo "0 0 * * * certbot renew --quiet --deploy-hook 'nginx -s reload'" > /etc/cron.d/certbot-renew
+# RUN echo "0 0 * * * certbot renew --quiet --deploy-hook 'nginx -s reload'" > /etc/cron.d/certbot-renew
 
-VOLUME ["/etc/letsencrypt", "/var/www/certbot"]
+# VOLUME ["/etc/letsencrypt", "/var/www/certbot"]
