@@ -2,7 +2,7 @@ FROM alpine:3.21.3
 
 # RUN apt update && apt upgrade -y
 
-RUN apk add pip python3.12-venv 
+RUN apk add py3-pip py3-virtualenv
 
 RUN python3 -m venv my-venv
 
