@@ -1,18 +1,24 @@
-FROM ubuntu:latest
+FROM alpine:3.21.3
 
-RUN apt update && apt upgrade -y
+# RUN apt update && apt upgrade -y
 
-RUN apt-get install pip git python3.12-venv -y
+RUN apk add py3-pip py3-virtualenv && \
+    python3 -m venv my-venv && \
+    my-venv/bin/pip install fastapi[standard] passlib[bcrypt] pydantic requests pymongo uvicorn
 
-RUN python3 -m venv my-venv
+# RUN apt-get install pip python3.12-venv -y
 
-RUN my-venv/bin/pip install fastapi[standard] passlib[bcrypt] pydantic requests pymongo uvicorn
+# RUN python3 -m venv my-venv
 
-RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
+# RUN my-venv/bin/pip install fastapi[standard] passlib[bcrypt] pydantic requests pymongo uvicorn
 
-COPY ./privkey.pem ./privkey.pem
-COPY ./fullchain.pem ./fullchain.pem
+# RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
 
-RUN cp ./Litoral-Puro-RJ/Test/API/Usuario/main.py ./main.py
+# COPY ./privkey.pem ./privkey.pem
+# COPY ./fullchain.pem ./fullchain.pem
 
-ENTRYPOINT ["my-venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--ssl-keyfile", "./privkey.pem", "--ssl-certfile", "./fullchain.pem"]
+# RUN cp ./Litoral-Puro-RJ/Test/API/Usuario/main.py ./main.py
+
+COPY . .
+
+ENTRYPOINT ["my-venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--ssl-keyfile", "/data/live/dioguitoposeidon.com.br/privkey.pem", "--ssl-certfile", "/data/live/dioguitoposeidon.com.br/fullchain.pem"]
