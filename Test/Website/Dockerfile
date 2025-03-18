@@ -1,4 +1,4 @@
-FROM nginx:latest-alpine
+FROM nginx:1.27.4-alpine
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install git certbot python3-certbot-nginx -y
