@@ -1,6 +1,16 @@
 FROM nginx:latest
 
-#RUN apt-get update && apt-get upgrade -y
+ENV HOME=/home/appuser
+ENV GROUP_ID=1003
+ENV GROUP_NAME=appuser
+ENV USER_ID=1003
+ENV USER_NAME=appuser
+
+RUN mkdir -m 550 ${HOME} && groupadd -g ${GROUP_ID} ${GROUP_NAME} && useradd -u ${USER_ID} -g ${GROUP_ID} ${USER_NAME}
+
+RUN cd ${HOME}
+
+RUN apt-get update && apt-get upgrade -y
 RUN apt-get install git certbot python3-certbot-nginx -y
 RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
 
