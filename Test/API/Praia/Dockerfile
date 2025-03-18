@@ -17,8 +17,8 @@ RUN my-venv/bin/pip install fastapi[standard] passlib[bcrypt] requests pymongo b
 
 COPY . .
 
-RUN cp /data/live/dioguitoposeidon.com.br/privkey.pem ./privkey.pem
+# RUN cp /data/live/dioguitoposeidon.com.br/privkey.pem ./privkey.pem
 
-RUN cp /data/live/dioguitoposeidon.com.br/fullchain.pem ./fullchain.pem
+# RUN cp /data/live/dioguitoposeidon.com.br/fullchain.pem ./fullchain.pem
 
-ENTRYPOINT ["my-venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001", "--ssl-keyfile", "./privkey.pem", "--ssl-certfile", "./fullchain.pem"]
+ENTRYPOINT ["my-venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001", "--ssl-keyfile", "/data/live/dioguitoposeidon.com.br/privkey.pem", "--ssl-certfile", "/data/live/dioguitoposeidon.com.br/fullchain.pem"]
