@@ -1,12 +1,15 @@
 FROM nginx:1.27.4-alpine
 
 # RUN apk update && apk upgrade -y
-RUN apk add git certbot certbot-nginx 
-RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
+RUN apk add certbot certbot-nginx 
+# RUN git clone https://github.com/Hatz-D/Litoral-Puro-RJ.git
 
 RUN mkdir -p /etc/nginx/html/
 RUN rm /usr/share/nginx/html/index.html
-RUN mv Litoral-Puro-RJ/Test/Website/* /etc/nginx/html/
+
+COPY . /etc/nginx/html
+
+# RUN mv ./* /etc/nginx/html/
 
 RUN rm /etc/nginx/nginx.conf
 COPY ./nginx.conf /etc/nginx/nginx.conf
