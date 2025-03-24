@@ -53,7 +53,7 @@ function displayData(data) {
         }
     }
 
-    if (Array.isArray(data)) {
+    if (data.Praia && data.Local && data.Qualidade && data.Municipio && data.Data) {
         const table = document.createElement('table');
         table.setAttribute("id", "myTable");
         table.classList.add('data-table');
@@ -70,15 +70,16 @@ function displayData(data) {
         thead.appendChild(headerRow);
         table.appendChild(thead);
         const tbody = document.createElement('tbody');
+        const keys = Object.keys(data.Praia);
 
-        data.forEach(item => {
+        keys.forEach(key => {
             const row = document.createElement('tr');
             const rowData = [
-                item.Praia || 'N/A',
-                item.Local || 'N/A',
-                item.Qualidade || 'N/A',
-                item.Municipio || 'N/A',
-                item.Data || 'N/A'
+                data.Praia[key] || 'N/A',
+                data.Local[key] || 'N/A',
+                data.Qualidade[key] || 'N/A',
+                data.Municipio[key] || 'N/A',
+                data.Data[key] || 'N/A'
             ];
 
             rowData.forEach(value => {
@@ -90,8 +91,9 @@ function displayData(data) {
             const selectCell = document.createElement('td');
             const selectButton = document.createElement('button');
             selectButton.textContent = 'Selecionar';
-            selectButton.setAttribute("data-id", item.Id);
-            selectButton.onclick = () => toggleSelection(item.Id, selectButton);
+            selectButton.id = data.Id[key];
+            selectButton.setAttribute("data-id", data.Id[key]);
+            selectButton.onclick = () => toggleSelection(key, selectButton);
             selectCell.appendChild(selectButton);
             row.appendChild(selectCell);
             tbody.appendChild(row);
@@ -100,20 +102,20 @@ function displayData(data) {
         table.appendChild(tbody);
         dataContainer.appendChild(table);
     } else {
-        dataContainer.textContent = 'Formato inválido: dados não são uma lista.';
+        dataContainer.textContent = 'Formato inválido: dados incompletos.';
     }
 }
 
-function toggleSelection(itemId, button) {
-    const index = selectedItems.indexOf(itemId);
+function toggleSelection(key, button) {
+    const index = selectedItems.indexOf(key);
     if (index > -1) {
         selectedItems.splice(index, 1);
         button.textContent = 'Selecionar';
-        button.classList.remove('selected');
+        button.classList.remove('selected');  // Remover a classe "selected"
     } else {
-        selectedItems.push(itemId);
+        selectedItems.push(key);
         button.textContent = 'Desmarcar';
-        button.classList.add('selected');
+        button.classList.add('selected');  // Adicionar a classe "selected"
     }
     document.getElementById('submit-btn').style.display = selectedItems.length > 0 ? 'block' : 'none';
 }
