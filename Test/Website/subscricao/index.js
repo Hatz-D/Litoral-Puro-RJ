@@ -53,7 +53,7 @@ function displayData(data) {
         }
     }
 
-    if (data.Praia && data.Local && data.Qualidade && data.Municipio && data.Data) {
+    if (Array.isArray(data)) {
         const table = document.createElement('table');
         table.setAttribute("id", "myTable");
         table.classList.add('data-table');
@@ -70,16 +70,15 @@ function displayData(data) {
         thead.appendChild(headerRow);
         table.appendChild(thead);
         const tbody = document.createElement('tbody');
-        const keys = Object.keys(data.Praia);
 
-        keys.forEach(key => {
+        data.forEach(item => {
             const row = document.createElement('tr');
             const rowData = [
-                data.Praia[key] || 'N/A',
-                data.Local[key] || 'N/A',
-                data.Qualidade[key] || 'N/A',
-                data.Municipio[key] || 'N/A',
-                data.Data[key] || 'N/A'
+                item.Praia || 'N/A',
+                item.Local || 'N/A',
+                item.Qualidade || 'N/A',
+                item.Municipio || 'N/A',
+                item.Data || 'N/A'
             ];
 
             rowData.forEach(value => {
@@ -91,9 +90,8 @@ function displayData(data) {
             const selectCell = document.createElement('td');
             const selectButton = document.createElement('button');
             selectButton.textContent = 'Selecionar';
-            selectButton.id = key;
-            selectButton.setAttribute("data-id", key);
-            selectButton.onclick = () => toggleSelection(key, selectButton);
+            selectButton.setAttribute("data-id", item.Id);
+            selectButton.onclick = () => toggleSelection(item.Id, selectButton);
             selectCell.appendChild(selectButton);
             row.appendChild(selectCell);
             tbody.appendChild(row);
@@ -102,20 +100,20 @@ function displayData(data) {
         table.appendChild(tbody);
         dataContainer.appendChild(table);
     } else {
-        dataContainer.textContent = 'Formato inválido: dados incompletos.';
+        dataContainer.textContent = 'Formato inválido: dados não são uma lista.';
     }
 }
 
-function toggleSelection(key, button) {
-    const index = selectedItems.indexOf(key);
+function toggleSelection(itemId, button) {
+    const index = selectedItems.indexOf(itemId);
     if (index > -1) {
         selectedItems.splice(index, 1);
         button.textContent = 'Selecionar';
-        button.classList.remove('selected');  // Remover a classe "selected"
+        button.classList.remove('selected');
     } else {
-        selectedItems.push(key);
+        selectedItems.push(itemId);
         button.textContent = 'Desmarcar';
-        button.classList.add('selected');  // Adicionar a classe "selected"
+        button.classList.add('selected');
     }
     document.getElementById('submit-btn').style.display = selectedItems.length > 0 ? 'block' : 'none';
 }
