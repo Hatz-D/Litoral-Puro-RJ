@@ -93,7 +93,7 @@ function displayData(data) {
             selectButton.textContent = 'Selecionar';
             selectButton.id = data.Id[key];
             selectButton.setAttribute("data-id", data.Id[key]);
-            selectButton.onclick = () => toggleSelection(key, selectButton);
+            selectButton.onclick = () => toggleSelection(data.Id[key], selectButton);
             selectCell.appendChild(selectButton);
             row.appendChild(selectCell);
             tbody.appendChild(row);
