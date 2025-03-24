@@ -8,6 +8,7 @@ from passlib.context import CryptContext
 import pandas as pd
 from bs4 import BeautifulSoup as bs
 from unidecode import unidecode
+import hashlib
 import requests
 import ssl
 import json
@@ -86,7 +87,7 @@ def webScrapping():
     url = "https://praialimpa.net/"
     page = requests.get(url)
 
-    df = pd.DataFrame({"Praia":[], "Local":[], "Qualidade":[], "Municipio":[], "Data":[]})
+    df = pd.DataFrame({"Id":[], "Praia":[], "Local":[], "Qualidade":[], "Municipio":[], "Data":[]})
     soup = bs(page.content, "html.parser")
     sections = soup.find_all("section")
 
@@ -103,17 +104,24 @@ def webScrapping():
         if(lastupdate == ""):
             lastupdate = "n/a"
 
+
         for i in range(0, len(praias)):
-            new_line = {"Praia":unidecode(praias[i].get_text(strip=True)), "Local":unidecode(locais[i].get_text(strip=True)), "Qualidade":unidecode(status[i].get_text(strip=True)), "Municipio":municipio, "Data":lastupdate}
+            hash_input = (unidecode(praias[i].get_text(strip=True)) + unidecode(locais[i].get_text(strip=True))).encode("utf-8")
+            idHash.update(hash_input)
+
+            new_line = {
+                "Id":idHash.hexdigest(),
+                "Praia":unidecode(praias[i].get_text(strip=True)),
+                "Local":unidecode(locais[i].get_text(strip=True)),
+                "Qualidade":unidecode(status[i].get_text(strip=True)),
+                "Municipio":municipio,
+                "Data":lastupdate
+            }
+
             df = df._append(new_line, ignore_index=True)
 
-    novos_dados = json.loads(df.to_json())
 
-    if(novos_dados['Praia']['0'] != "Arpoador" or novos_dados['Praia']['266'] != 'Cepilho'):
-         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Houve uma mudança nos índices das praias!"
-        )
+    novos_dados = json.loads(df.to_json())
 
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
@@ -124,11 +132,12 @@ def webScrapping():
 
     alteradas = []
 
-    for index in novos_dados['Praia']:
-        atual = collection.find_one({"Id": index})
-        if(atual["Qualidade"] != novos_dados["Qualidade"][index]):
+    for index in novos_dados['Id']:
+        atual = collection.find_one({"Id": novos_dados['Id'][index]})
+
+        if(atual and atual["Qualidade"] != novos_dados["Qualidade"][index]):
             documento = {
-                "Id": index,
+                "Id": novos_dados['Id'][index],
                 "Praia": novos_dados['Praia'][index],
                 "Qualidade": novos_dados['Qualidade'][index],
                 "Municipio": novos_dados['Municipio'][index],
@@ -138,12 +147,13 @@ def webScrapping():
 
             alteradas.append(documento)
 
+
     data = {
         "lista": alteradas
     }
-    
+
     headers = {
-        "Content-Type": "application/json",  
+        "Content-Type": "application/json",
     }
 
     response = requests.post("https://dioguitoposeidon.com.br:8002/api/query-subscriptions", json=data, headers=headers)
@@ -160,15 +170,16 @@ def webScrapping():
         collection.delete_many({})
 
         # Inserir os novos dados na coleção 'praia'
-        for index in novos_dados['Praia']:
+        for index in range(len(novos_dados['Id'])):
             documento = {
-                "Id": index,
-                "Praia": novos_dados['Praia'][index],
-                "Qualidade": novos_dados['Qualidade'][index],
-                "Municipio": novos_dados['Municipio'][index],
-                "Local": novos_dados['Local'][index],
-                "Data": novos_dados['Data'][index]
+                "Id": novos_dados['Id'][str(index)],
+                "Praia": novos_dados['Praia'][str(index)],
+                "Qualidade": novos_dados['Qualidade'][str(index)],
+                "Municipio": novos_dados['Municipio'][str(index)],
+                "Local": novos_dados['Local'][str(index)],
+                "Data": novos_dados['Data'][str(index)]
             }
+
             collection.insert_one(documento)
 
         return "Dados atualizados com sucesso e historico preservado!"
