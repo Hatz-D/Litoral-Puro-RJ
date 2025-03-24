@@ -24,6 +24,8 @@ ssl_context.load_cert_chain('/data/live/dioguitoposeidon.com.br/fullchain.pem', 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+idHash = hashlib.md5()
+
 origins = [
     "*"
 ]
@@ -48,6 +50,7 @@ def getData():
 
     # Preparar os dados no formato original
     resultado = {
+        "Id": {},
         "Praia": {},
         "Qualidade": {},
         "Municipio": {},
@@ -57,6 +60,7 @@ def getData():
 
     # Iterar sobre os documentos e organizar no formato JSON desejado
     for idx, documento in enumerate(dados):
+        resultado["Id"][str(idx)] = documento["Id"]
         resultado["Praia"][str(idx)] = documento["Praia"]
         resultado["Qualidade"][str(idx)] = documento["Qualidade"]
         resultado["Municipio"][str(idx)] = documento["Municipio"]
