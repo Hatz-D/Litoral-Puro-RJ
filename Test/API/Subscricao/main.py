@@ -70,7 +70,7 @@ async def smtpEmail(request: PraiasAlteradas):
             for praia in alteradas:
                 if(praia.Id == index):
                         documento_formatado = {
-                            "Id": index,
+                            "Id": praia.Id,
                             "Praia": praia.Praia,
                             "Qualidade": praia.Qualidade,
                             "Municipio": praia.Municipio,
@@ -138,7 +138,7 @@ async def get_selections(email: str):
     selections = collection.find_one({"email": email})
 
     if selections:
-        selections["_id"] = str(selections["_id"])  # ✅ Converte o ObjectId para string
+        selections["_id"] = str(selections["_id"]) 
         return selections
     else:
         return {"message": "Nenhuma seleção encontrada"}
