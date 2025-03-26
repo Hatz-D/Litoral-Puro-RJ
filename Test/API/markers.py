@@ -2,7 +2,7 @@ import json
 
 array = []
 
-# Rio de Janeiro
+# Rio de Janeiro.
 array.append([-22.988550, -43.193981])
 array.append([-23.011334, -43.366277])
 array.append([-23.011135, -43.335107])
