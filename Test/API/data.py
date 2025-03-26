@@ -62,7 +62,6 @@ def hash_password(password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
-# Função para criar o usuário
 def create_user(user: UserCreate, collection):
     if collection.find_one({"email": user.email}):
         raise ValueError("Email já cadastrado")
