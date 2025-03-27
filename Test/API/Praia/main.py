@@ -192,4 +192,9 @@ def webScrapping():
         print("Erro:", e)
         return "Erro!"
 
+
+@app.get("/healthz")
+def healthz():
+    return "ok"
+
       
