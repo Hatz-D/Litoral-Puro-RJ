@@ -142,3 +142,8 @@ async def get_selections(email: str):
         return selections
     else:
         return {"message": "Nenhuma seleção encontrada"}
+
+
+@app.get("/healthz")
+def healthz():
+    return "ok"
