@@ -133,3 +133,8 @@ async def login(user: UserLogin):
         content={"message": "Login bem-sucedido", "user": authenticated_user},
         status_code=status.HTTP_200_OK
     )
+
+
+@app.get("/healthz")
+def healthz():
+    return "ok"
