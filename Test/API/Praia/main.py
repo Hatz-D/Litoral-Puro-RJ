@@ -24,8 +24,6 @@ ssl_context.load_cert_chain('/data/live/dioguitoposeidon.com.br/fullchain.pem', 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-idHash = hashlib.md5()
-
 origins = [
     "*"
 ]
@@ -111,6 +109,7 @@ def webScrapping():
 
         for i in range(0, len(praias)):
             hash_input = (unidecode(praias[i].get_text(strip=True)) + unidecode(locais[i].get_text(strip=True))).encode("utf-8")
+            idHash = hashlib.md5()
             idHash.update(hash_input)
 
             new_line = {
