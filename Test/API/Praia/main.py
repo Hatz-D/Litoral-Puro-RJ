@@ -33,7 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/api/data")
+@app.get("/praia/data")
 def getData():
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
@@ -67,13 +67,13 @@ def getData():
     return conteudo_string
 
 
-@app.get("/api/map")
+@app.get("/praia/map")
 def getMap():
     response = requests.get("https://maps.googleapis.com/maps/api/js?key="+MAPS_API+"&callback=console.debug&libraries=maps,marker&v=beta")
     return JSONResponse(content={"script": response.text}, status_code=200)
 
 
-@app.get("/api/coordinates")
+@app.get("/praia/coordinates")
 def getCoordinates():
     with open("coordinates.json", 'r', encoding='utf-8') as arquivo:
         conteudo_json = json.load(arquivo)
@@ -81,7 +81,7 @@ def getCoordinates():
     return conteudo_string
 
 
-@app.get("/api/webscrapping")
+@app.get("/praia/webscrapping")
 def webScrapping():
     url = "https://praialimpa.net/"
     page = requests.get(url)
