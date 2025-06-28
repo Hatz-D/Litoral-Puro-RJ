@@ -87,7 +87,7 @@ def verify_user_credentials(email: str, password: str, collection):
     return None
 
 
-@app.post("/api/register")
+@app.post("/usuario/register")
 async def register(user: UserCreate):
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
@@ -113,7 +113,7 @@ async def register(user: UserCreate):
         )
 
 
-@app.post("/api/login")
+@app.post("/usuario/login")
 async def login(user: UserLogin):
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
