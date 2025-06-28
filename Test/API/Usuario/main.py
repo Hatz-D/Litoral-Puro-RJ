@@ -132,6 +132,6 @@ async def login(user: UserLogin):
     )
 
 
-@app.get("/usuario/healthz")
+@app.get("/healthz")
 def healthz():
     return "ok"
