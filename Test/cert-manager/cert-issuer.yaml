@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: ca-issuer
+  namespace: istio-system
+spec:
+  acme:
+    email: {MY_EMAIL}
+    privateKeySecretRef:
+      name: nginx-secret
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - http01:
+        ingress:
+          class: istio
+      selector: {}
