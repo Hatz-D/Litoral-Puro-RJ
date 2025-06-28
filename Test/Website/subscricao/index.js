@@ -25,7 +25,7 @@ if (userName) {
 let selectedItems = [];
 
 function fetchData() {
-    fetch('https://hatz-d.com.br/praia/praia/data')
+    fetch('https://hatz-d.com.br/praia/data')
     .then(response => response.json())
     .then(data => {
         displayData(data);
@@ -127,7 +127,7 @@ function submitSelections() {
         return;
     }
 
-    fetch('https://hatz-d.com.br/praia/subscription/save-selections', {
+    fetch('https://hatz-d.com.br/subscription/save-selections', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -164,7 +164,7 @@ function tableFilter() {
 }
 
 function fetchSelections(email) {
-    fetch(`https://hatz-d.com.br/praia/subscription/get-selections/${email}`)
+    fetch(`https://hatz-d.com.br/subscription/get-selections/${email}`)
         .then(response => response.json())
         .then(data => {
             if (data && data.selectedItems) {
