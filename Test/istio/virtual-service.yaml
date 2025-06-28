@@ -1,0 +1,40 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: nginx
+  namespace: litoral-puro-rj
+spec:
+  gateways:
+  - gateway
+  hosts:
+  - hatz-d.com.br
+  http:
+    - match:
+        - uri:
+            prefix: /praia
+      route:
+        - destination:
+            host: api-praia.litoral-puro-rj.svc.cluster.local
+            port:
+              number: 80
+    - match:
+        - uri:
+            prefix: /subscription
+      route:
+        - destination:
+            host: api-subscricao.litoral-puro-rj.svc.cluster.local
+            port:
+              number: 80
+    - match:
+        - uri:
+            prefix: /usuario
+      route:
+        - destination:
+            host: api-usuario.litoral-puro-rj.svc.cluster.local
+            port:
+              number: 80
+    - route:
+        - destination:
+            host: nginx-service.litoral-puro-rj.svc.cluster.local
+            port:
+              number: 80
