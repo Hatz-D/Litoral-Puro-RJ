@@ -127,7 +127,7 @@ function submitSelections() {
         return;
     }
 
-    fetch('https://hatz-d.com.br/praia/subscricao/save-selections', {
+    fetch('https://hatz-d.com.br/praia/subscription/save-selections', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -164,7 +164,7 @@ function tableFilter() {
 }
 
 function fetchSelections(email) {
-    fetch(`https://hatz-d.com.br/praia/subscricao/get-selections/${email}`)
+    fetch(`https://hatz-d.com.br/praia/subscription/get-selections/${email}`)
         .then(response => response.json())
         .then(data => {
             if (data && data.selectedItems) {
