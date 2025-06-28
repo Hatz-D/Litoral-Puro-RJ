@@ -156,7 +156,7 @@ def webScrapping():
         "Content-Type": "application/json",
     }
 
-    response = requests.post("https://dioguitoposeidon.com.br:8002/api/query-subscriptions", json=data, headers=headers)
+    response = requests.post("https://hatz-d.com.br/subscricao/query-subscriptions", json=data, headers=headers)
 
     # Mover os dados atuais para o histórico com timestamp
     try:
