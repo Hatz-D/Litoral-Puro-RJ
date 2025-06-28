@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nginx-cert
+  namespace: istio-system
+spec:
+  commonName: hatz-d.com.br
+  dnsNames:
+  - hatz-d.com.br
+  issuerRef:
+    name: ca-issuer
+  secretName: nginx-cert
