@@ -23,7 +23,7 @@ if (userName) {
 }
 
 async function loadGoogleMaps() {
-  const response = await fetch('https://dioguitoposeidon.com.br:8001/api/map');
+  const response = await fetch('https://hatz-d.com.br/praia/map');
   const data = await response.json();
 
   if (!response.ok) {
@@ -61,7 +61,7 @@ async function loadMarkers(map, data) {
     }
 }
 
-  const responseCoord = await fetch('https://dioguitoposeidon.com.br:8001/api/coordinates');
+  const responseCoord = await fetch('https://hatz-d.com.br/praia/coordinates');
   const coords = await responseCoord.json();
   const cleanedString = coords.replace(/^"|"$/g, '').replace(/\\"/g, '"');
   const coordenadas = JSON.parse(cleanedString);
@@ -187,7 +187,7 @@ function updateStats(propriaCont, impropriaCont, naCont) {
 }
 
 function fetchData(map) {
-  fetch('https://dioguitoposeidon.com.br:8001/api/data')
+  fetch('https://hatz-d.com.br/praia/data')
   .then(response => response.json())
   .then(data => {
       loadMarkers(map, data);
