@@ -15,9 +15,6 @@ app = FastAPI()
 MONGO_URI = os.getenv("MONGO_URI")
 MAIL_SECRET = os.getenv("MAIL_SECRET")
 
-ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-ssl_context.load_cert_chain('/data/live/dioguitoposeidon.com.br/fullchain.pem', keyfile='/data/live/dioguitoposeidon.com.br/privkey.pem')
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 origins = [
