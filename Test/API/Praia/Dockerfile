@@ -6,4 +6,4 @@ RUN apk add py3-pip py3-virtualenv && \
 
 COPY . .
 
-ENTRYPOINT ["my-venv/bin/fastapi", "main.py", "--port", "8001"]
+ENTRYPOINT ["my-venv/bin/fastapi", "run", "main.py", "--port", "8001"]
