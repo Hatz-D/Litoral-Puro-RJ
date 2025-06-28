@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const password = document.querySelector("#password").value;
 
     try {
-      const response = await fetch("https://dioguitoposeidon.com.br:8000/api/login", {
+      const response = await fetch("https://hatz-d.com.br/usuario/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
