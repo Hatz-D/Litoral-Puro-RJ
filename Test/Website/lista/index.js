@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function fetchData() {
-    fetch('https://dioguitoposeidon.com.br:8001/api/data')
+    fetch('https://hatz-d.com.br/praia/data')
     .then(response => response.json())
     .then(data => {
         displayData(data);
