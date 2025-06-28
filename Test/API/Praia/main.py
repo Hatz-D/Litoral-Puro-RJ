@@ -189,7 +189,7 @@ def webScrapping():
         return "Erro!"
 
 
-@app.get("/healthz")
+@app.get("/praia/healthz")
 def healthz():
     return "ok"
 
