@@ -51,7 +51,7 @@ class PraiasAlteradas(BaseModel):
     lista: List[Praia]
     
 
-@app.post("/api/query-subscriptions")
+@app.post("/subscricao/query-subscriptions")
 async def smtpEmail(request: PraiasAlteradas):
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
     db = client['litoral_puro_rj'] 
@@ -106,7 +106,7 @@ class SelectionRequest(BaseModel):
     selectedItems: List[str]
 
 
-@app.post("/api/save-selections")
+@app.post("/subscricao/save-selections")
 async def save_selections(request: SelectionRequest):
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
@@ -125,7 +125,7 @@ async def save_selections(request: SelectionRequest):
     
     return JSONResponse(status_code=200, content={"message": "Seleções salvas com sucesso!"})
 
-@app.get("/api/get-selections/{email}")
+@app.get("/subscricao/get-selections/{email}")
 async def get_selections(email: str):
     client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
